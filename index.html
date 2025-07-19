@@ -617,6 +617,23 @@
                     }
                 });
             });
+            function normalizarTexto(texto) {
+                return texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            }
+
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const searchTerm = normalizarTexto(this.value);
+                const cards = document.querySelectorAll('.link-card');
+                
+                cards.forEach(card => {
+                    const cardText = normalizarTexto(card.getAttribute('data-search'));
+                    if (cardText.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
         </script>
     </div>
 </body>
