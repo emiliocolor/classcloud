@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemas Digitales - Material de Apoyo</title>
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            width: 100%;
+            height: 300px;
+            background-image: url('img/3770921.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%);
+            z-index: 1;
+        }
+        
+        .header-content {
+            position: relative;
+            padding: 30px 20px;
+            z-index: 2;
+            width: 100%;
+            max-width: 90%;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        
+        .header p {
+            margin: 10px 0 0;
+            font-size: 18px;
+        }
+        
+        .header-logos {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 2;
+        }
+        
+        .header-logo {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.5));
+        }
+        
+        .search-container {
+            margin-bottom: 15px;
+            position: relative;
+            padding: 0 25px;
+            box-sizing: border-box;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid #e0e0e0;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            outline: none;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .search-input:focus {
+            border-color: #4285f4;
+            box-shadow: 0 2px 12px rgba(66, 133, 244, 0.2);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 45px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            padding: 0 25px;
+        }
+        
+        .filter-button {
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .filter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .filter-button.guide {
+            background-color: #e6f0f4;
+            color: #4285f4;
+        }
+        
+        .filter-button.pdf {
+            background-color: #e6f4ea;
+            color: #34a853;
+        }
+        
+        .filter-button.page {
+            background-color: #fce8e6;
+            color: #ea4335;
+        }
+        
+        .filter-button.video {
+            background-color: #fef7e0;
+            color: #fbbc05;
+        }
+        
+        .link-card {
+            background-color: white;
+            border-radius: 25px;
+            border: 2px solid #e0e0e0;
+            margin-bottom: 30px;
+            padding: 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            padding: 20px 25px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-type {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-type.guide {
+            background-color: #e6f0f4;
+            color: #4285f4;
+        }
+        
+        .card-type.pdf {
+            background-color: #e6f4ea;
+            color: #34a853;
+        }
+        
+        .card-type.page {
+            background-color: #fce8e6;
+            color: #ea4335;
+        }
+        
+        .card-type.video {
+            background-color: #fef7e0;
+            color: #fbbc05;
+        }
+        
+        .card-content {
+            padding: 20px 25px;
+        }
+        
+        .card-title {
+            font-size: 22px;
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+        }
+        
+        .card-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .card-link {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        
+        .link-card[data-search*="guía"] .card-link {
+            background-color: #4285f4;
+        }
+        
+        .link-card[data-search*="pdf"] .card-link {
+            background-color: #34a853;
+        }
+        
+        .link-card[data-search*="página"] .card-link {
+            background-color: #ea4335;
+        }
+        
+        .link-card[data-search*="video"] .card-link {
+            background-color: #fbbc05;
+        }
+        
+        .card-link:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .card-tag {
+            font-size: 13px;
+            background-color: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            color: #555;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        footer {
+            background-color: white;
+            border-radius: 25px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            box-sizing: border-box;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo {
+            height: 60px;
+            width: auto;
+        }
+        
+        .footer-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .footer-link {
+            color: #4285f4;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: #3367d6;
+            text-decoration: underline;
+        }
+        
+        .card-icon {
+            margin-right: 8px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>Sistemas Digitales</h1>
+                <p>Material de apoyo</p>
+            </div>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Buscar materiales por nombre...">
+            <span class="search-icon">O--</span>
+        </div>
+        
+        <div class="filter-buttons">
+            <button class="filter-button guide">
+                <i class="fas fa-file-alt"></i> Documento
+            </button>
+            <button class="filter-button pdf">
+                <i class="fas fa-file-pdf"></i> PDF
+            </button>
+            <button class="filter-button page">
+                <i class="fas fa-globe"></i> Página
+            </button>
+            <button class="filter-button video">
+                <i class="fas fa-video"></i> Video
+            </button>
+        </div>
+        
+        <!-- Guías (Documentos) -->
+        <div class="link-card" data-search="guía sistemas lógicos combinatorios">
+            <div class="card-header">
+                <span class="card-type guide"><i class="fas fa-file-alt card-icon"></i>Guía de estudio</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Sistemas Lógicos Combinatorios</h2>
+                <p class="card-description">Documento de estudio sobre el diseño y análisis de sistemas lógicos combinatorios en electrónica digital. Incluye ejemplos prácticos y ejercicios resueltos.</p>
+                <a href="https://docs.google.com/document/d/1or_bdWjRJNFZYtDjAKo6dWwgefuEVN92kGtDxzzIcpI/edit?usp=sharing" class="card-link" target="_blank"><i class="fas fa-book-open"></i> Ver documento</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="guía circuitos electrónicos">
+            <div class="card-header">
+                <span class="card-type guide"><i class="fas fa-file-alt card-icon"></i>Guía de estudio</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Circuitos Electrónicos</h2>
+                <p class="card-description">Documento explicativo sobre los elementos y configuración de circuitos electrónicos básicos. Ideal para comprender los fundamentos de la electrónica.</p>
+                <a href="https://docs.google.com/document/d/1zFnReb4RnWtsxZ-gXl7fFbwc40mfIDCeYgcBjXi23dA/edit?usp=sharing" class="card-link" target="_blank"><i class="fas fa-book-open"></i> Ver documento</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="guía programación lenguaje c">
+            <div class="card-header">
+                <span class="card-type guide"><i class="fas fa-file-alt card-icon"></i>Guía de estudio</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Programación en Lenguaje C</h2>
+                <p class="card-description">Guía completa para preparar el examen de lenguaje C, incluyendo estructuras de control, sintaxis básica y ejemplos de código comentados.</p>
+                <a href="https://docs.google.com/document/d/1NhjnOKUJgn8Qu52mXFaSy5USlFftaj2XnKwMAsQz12s/edit?usp=sharing" class="card-link" target="_blank"><i class="fas fa-book-open"></i> Ver documento</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="guía elementos electrónicos">
+            <div class="card-header">
+                <span class="card-type guide"><i class="fas fa-file-alt card-icon"></i>Guía de estudio</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Elementos Electrónicos</h2>
+                <p class="card-description">Documento introductorio sobre resistencias, capacitores, transistores y otros componentes electrónicos. Incluye especificaciones técnicas y usos comunes.</p>
+                <a href="https://docs.google.com/document/d/1GGobqHkkUzcRrCMFt95_L9pJnLsryfSeJO1ulmBTVKE/edit?usp=sharing" class="card-link" target="_blank"><i class="fas fa-book-open"></i> Ver documento</a>
+            </div>
+        </div>
+
+        <!-- Recursos PDF (Verdes) -->
+        <div class="link-card" data-search="pdf operación elementos eléctricos electrónicos">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Guía de Operación de Elementos Eléctricos y Electrónicos</h2>
+                <p class="card-description">Documento de estudio sobre el funcionamiento de componentes eléctricos y electrónicos.</p>
+                <a href="https://drive.google.com/file/d/1j4YEhWk8mRya-Nb3M1KfI33v6grLkfMn/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf dispositivos electrónicos">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Guía de Dispositivos Electrónicos</h2>
+                <p class="card-description">Guía con contenido sobre el comportamiento y análisis de dispositivos semiconductores.</p>
+                <a href="https://drive.google.com/file/d/18vS5_8LmGSPrsbgIj3lYo8ay7ravTRU2/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf electrónica digital">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Guía de Electrónica Digital</h2>
+                <p class="card-description">Material de apoyo para el análisis y diseño de sistemas digitales.</p>
+                <a href="https://drive.google.com/file/d/1_vRHJT9PNhz0rpZIlgJPc0G7ZzFARLo1/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf programación asm">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Guía de Programación en ASM</h2>
+                <p class="card-description">Guía para el desarrollo de código en lenguaje ensamblador ASM.</p>
+                <a href="https://drive.google.com/file/d/1nLgItsQM6JPJVQeFIfskaU4AvFaDB0qn/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf instrumentación electrónica">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Instrumentación Electrónica</h2>
+                <p class="card-description">Estudio de herramientas e instrumentos de medición electrónica.</p>
+                <a href="https://drive.google.com/file/d/19qgGhJz4EXBbo6PaLcVsJs-UUlNpkWBK/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf circuitos lógicos secuenciales 2">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Circuitos Lógicos Secuenciales 2</h2>
+                <p class="card-description">Segunda parte sobre circuitos secuenciales. Incluye flip-flops y contadores.</p>
+                <a href="https://drive.google.com/file/d/1CacPKQCWYtwZc6OG_-KnM_Hd4Gjjxozt/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf circuitos lógicos secuenciales">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Circuitos Lógicos Secuenciales</h2>
+                <p class="card-description">Primer documento sobre el análisis de circuitos secuenciales en electrónica digital.</p>
+                <a href="https://drive.google.com/file/d/1Dl2ThMpcaXtpciTZYcscLJy6RLHaTN_9/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf circuitos lógicos secuenciales 3">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Circuitos Lógicos Secuenciales 3</h2>
+                <p class="card-description">Tercera guía enfocada en el diseño de máquinas de estado.</p>
+                <a href="https://drive.google.com/file/d/1bbTaPgE3tOuJcPXOCC-2iChKQhxvjX0l/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf arquitectura microprocesadores microcontroladores">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Arquitectura de Microprocesadores y Microcontroladores</h2>
+                <p class="card-description">Contenido introductorio sobre la arquitectura interna y funcionamiento básico de microprocesadores.</p>
+                <a href="https://drive.google.com/file/d/1eWyTdezmuUsVSjllRZs1lodF-Jqc7rRA/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="pdf arquitectura microprocesadores 2">
+            <div class="card-header">
+                <span class="card-type pdf"><i class="fas fa-file-pdf card-icon"></i>PDF</span>
+                <span class="card-tag">TIPO A</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Arquitectura de Microprocesadores y Microcontroladores 2</h2>
+                <p class="card-description">Segunda parte con ejemplos de programación y casos prácticos de controladores.</p>
+                <a href="https://drive.google.com/file/d/1lM6rZQtZpeVjA76691k29Ant7W03WjFZ/view?usp=sharing" class="card-link" target="_blank"><i class="fas fa-file-pdf"></i> Ver PDF</a>
+            </div>
+        </div>
+
+        <!-- Páginas web -->
+        <div class="link-card" data-search="página análisis circuitos teoremas">
+            <div class="card-header">
+                <span class="card-type page"><i class="fas fa-globe card-icon"></i>Página web</span>
+                <span class="card-tag">Recurso externo</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Análisis de Circuitos por Teoremas</h2>
+                <p class="card-description">Página educativa sobre el uso de teoremas eléctricos como Thevenin, Norton y Superposición en análisis de circuitos. Contiene explicaciones detalladas y ejemplos.</p>
+                <a href="https://analisisdecircuitosporteoremas.blogspot.com/p/22.html" class="card-link" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar página</a>
+            </div>
+        </div>
+
+        <div class="link-card" data-search="página sumador sistemas digitales">
+            <div class="card-header">
+                <span class="card-type page"><i class="fas fa-globe card-icon"></i>Página web</span>
+                <span class="card-tag">Recurso externo</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Sumador en Sistemas Digitales</h2>
+                <p class="card-description">Explicación detallada del funcionamiento de los sumadores binarios en sistemas digitales, con diagramas y tablas de verdad.</p>
+                <a href="https://cienciayt.com/electronica/sistemas-digitales/sumador/" class="card-link" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar página</a>
+            </div>
+        </div>
+
+        <!-- Videos -->
+        <div class="link-card" data-search="video osciloscopio youtube">
+            <div class="card-header">
+                <span class="card-type video"><i class="fas fa-video card-icon"></i>Video tutorial</span>
+                <span class="card-tag">YouTube</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">Uso del Osciloscopio</h2>
+                <p class="card-description">Video tutorial en español que muestra cómo utilizar un osciloscopio paso a paso en experimentos reales. Ideal para preparación de laboratorios.</p>
+                <a href="https://youtu.be/Sxzzh-OUZjg?si=RjwNg7k0nAH_s6_Y" class="card-link" target="_blank"><i class="fab fa-youtube"></i> Ver video</a>
+            </div>
+        </div>
+
+        <!-- Más recursos... -->
+        <div class="link-card" data-search="página osciloscopio blog electrónica">
+            <div class="card-header">
+                <span class="card-type page"><i class="fas fa-globe card-icon"></i>Página web</span>
+                <span class="card-tag">Blog especializado</span>
+            </div>
+            <div class="card-content">
+                <h2 class="card-title">¿Qué es un Osciloscopio?</h2>
+                <p class="card-description">Explicación accesible sobre qué es un osciloscopio, su función, aplicaciones básicas y consejos para su uso en mediciones electrónicas.</p>
+                <a href="https://www.330ohms.com/blogs/blog/que-es-un-osciloscopio" class="card-link" target="_blank"><i class="fas fa-external-link-alt"></i> Visitar página</a>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-logos">
+                <img src="img/favicon.png" alt="Logo emiliocolor" class="footer-logo">
+                <img src="img/media.png" alt="Logo CECyT 9" class="footer-logo">
+                <img src="img/EVD.png" alt="Logo CECyT 9" class="footer-logo">
+            </div>
+            <p class="footer-text">
+                Desarrollado por <strong>EmilioColor®</strong> para la difusión en la Comunidad de Estudios del Centro de Estudios Científicos y Tecnológicos 9 "Juan de Dios Bátiz".<br>
+                Todos los derechos reservados © 2025. <br>
+                Al usar esta página aceptas nuestros <a href="/terminos-y-condiciones" style="color: inherit; text-decoration: underline;">Términos y condiciones de uso</a>.
+            </p>
+            <div class="footer-links">
+                <a href="https://emiliocolor.github.io/mx/" class="footer-link" target="_blank">Página oficial de EmilioColor</a>
+                <a href="https://sites.google.com/view/comunidad-de-estudio-cecyt9/p%C3%A1gina-principal" class="footer-link" target="_blank">Página del CECECyT 9</a>
+            </div>
+        </footer>
+
+        <script>
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const cards = document.querySelectorAll('.link-card');
+                
+                cards.forEach(card => {
+                    const cardText = card.getAttribute('data-search').toLowerCase();
+                    if (cardText.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
