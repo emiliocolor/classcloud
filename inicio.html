@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmilioColor® - ClassCloud™ Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://raw.githubusercontent.com/emiversal/database/bd60c35a93a8d95299bdab16b7b9a34ba5114684/favicon_classcloud.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="modal fade" id="nameModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar tu nombre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="userNameInput" class="form-label">Tu nombre:</label>
+                        <input type="text" class="form-control" id="userNameInput">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveNameBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>" type="image/svg+xml">
+                <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.2rem; text-align: center;">
+                    <i class="fas fa-cloud" style="display: block; font-size: 2rem; margin-bottom: 0.2rem;"></i>
+                    ClassCloud™ Pro
+                </p>
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">Entorno de Desarrollo Integral</p>
+                <h4 id="userWelcome" style="display: none;">Classcloud™ Pro - Entorno de Desarrollo Integral</h4>
+                <button class="btn btn-sm btn-outline-light mt-2" id="editNameBtn">
+                    <i class="fas fa-user-edit me-1"></i> Editar nombre
+                </button>
+            </div>
+            
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item">
+                    <a href="#inicio" class="sidebar-nav-link active" data-section="inicio">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#herramientas" class="sidebar-nav-link" data-section="herramientas">
+                        <i class="fas fa-tools"></i> Herramientas
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#materiales" class="sidebar-nav-link" data-section="materiales">
+                        <i class="fas fa-book"></i> Cursos
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#chat" class="sidebar-nav-link" data-section="chat">
+                        <i class="fas fa-comments"></i> Chat Personal
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#calendario" class="sidebar-nav-link" data-section="calendario">
+                        <i class="fas fa-calendar-alt"></i> Calendario
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#contacto" class="sidebar-nav-link" data-section="contacto">
+                        <i class="fas fa-envelope"></i> Contacto
+                    </a>
+                </li>
+<li class="sidebar-nav-item">
+    <a href="https://emiliocolor.github.io/mx/#entorno" class="sidebar-nav-link" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+    </a>
+</li>
+            </ul>
+            
+            <div class="mt-4 pt-3">
+                <h5 class="text-white mb-3">Filtros Rápidos</h5>
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="all">Todas</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="desarrollo">Desarrollo</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="ia">IA</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="google">Google</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="diseno">Diseño</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="educacion">Educación</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="ingles">Inglés</button>
+                </div>
+            </div>
+            
+            <div class="mt-4 pt-3">
+                <h5 class="text-white mb-3">Accesos Directos</h5>
+                <div id="custom-shortcuts">
+                    <!-- Nota: Enlaces predeterminados al entrar sin usuario
+                    <a href="https://github.com" target="_blank" class="d-block text-white-50 mb-2">
+                        <i class="fab fa-github me-2"></i> GitHub
+                    </a>
+                    <a href="https://chat.deepseek.com/" target="_blank" class="d-block text-white-50 mb-2">
+                        <i class="fas fa-robot me-2"></i> DeepSeek
+                    </a>
+                    <a href="https://drive.google.com" target="_blank" class="d-block text-white-50">
+                        <i class="fab fa-google-drive me-2"></i> Google Drive
+                    </a> -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div id="inicio-section" class="active-section">
+                <div class="home-hero">
+                    <h1 id="welcomeTitle">Bienvenido al Entorno de Desarrollo Integral</h1>
+                    <p id="welcomeMessage">Accede a todas las herramientas digitales...</p>
+                    <button class="btn btn-explore" id="exploreSectionBtn" data-target-section="herramientas">Explorar Herramientas</button>
+                    <div class="reminder-bubble">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Recuerda revisar tu calendario</span>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="home-card">
+                            <h3>Herramientas Disponibles</h3>
+                            <div class="stat-number">25</div>
+                            <p class="stat-label">Plataformas y recursos para tu desarrollo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="home-card">
+                            <h3>Categorías</h3>
+                            <div class="stat-number">8</div>
+                            <p class="stat-label">Áreas de conocimiento diferentes</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="home-card">
+                            <h3>Cursos</h3>
+                            <div class="stat-number">+175</div>
+                            <p class="stat-label">Recursos educativos disponibles, <strong>¡se agregan nuevos cada semana!</strong></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rounded-container mb-4">
+                    <h3 class="section-title">Novedades y Actualizaciones</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="alert alert-custom mb-3">
+                                <strong>Nueva herramienta añadida:</strong> DeepSeek AI ahora disponible en la sección de Inteligencia Artificial.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-custom">
+                                <strong>Actualización:</strong> Se han añadido nuevos cursos de programación en JavaScript avanzado.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="rounded-container h-100">
+                            <h3 class="section-title">Notas Personales</h3>
+                            <p>Guarda tus notas personales aquí. Se guardarán automáticamente en tu navegador.</p>
+                            
+                            <div class="notes-container">
+                                <textarea class="notes-textarea" id="personalNotes" placeholder="Escribe tus notas aquí..."></textarea>
+                                <button class="btn btn-primary save-notes-btn" id="saveNotesBtn">
+                                    Guardar Notas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="rounded-container h-100">
+                            <h3 class="section-title">Acceso Rápido a Herramientas</h3>
+                            <ul class="quick-access-list" id="quick-tools-access">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="herramientas-section" class="hidden-section">
+                <div class="rounded-container mb-4">
+                    <h2 class="section-title"><i class="fas fa-tools"></i> Herramientas Digitales</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="form-control search-input" placeholder="Buscar herramientas...">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="desarrollo">Desarrollo</button>
+                        <button class="filter-btn" data-filter="ia">Inteligencia Artificial</button>
+                        <button class="filter-btn" data-filter="google">Google Workspace</button>
+                        <button class="filter-btn" data-filter="diseno">Diseño</button>
+                        <button class="filter-btn" data-filter="educacion">Educación</button>
+                        <button class="filter-btn" data-filter="ingles">Inglés</button>
+                    </div>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="desarrollo">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fab fa-github tool-icon"></i>
+                                <h5>GitHub</h5>
+                                <p class="small">Plataforma de desarrollo colaborativo y control de versiones.</p>
+                                <a href="https://github.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-robot tool-icon"></i>
+                                <h5>DeepSeek</h5>
+                                <p class="small">Plataforma avanzada de inteligencia artificial y aprendizaje automático.</p>
+                                <a href="https://chat.deepseek.com/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-brain tool-icon"></i>
+                                <h5>ChatGPT</h5>
+                                <p class="small">Asistente de IA para generación de texto y resolución de problemas.</p>
+                                <a href="https://chat.openai.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-gem tool-icon"></i>
+                                <h5>Gemini AI</h5>
+                                <p class="small">Modelo avanzado de IA de Google para diversas aplicaciones.</p>
+                                <a href="https://gemini.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-box tool-icon"></i>
+                                <h5>Blackbox AI</h5>
+                                <p class="small">Herramienta de IA para desarrollo de código y asistencia técnica.</p>
+                                <a href="https://www.blackbox.ai" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fab fa-google-drive tool-icon"></i>
+                                <h5>Google Drive</h5>
+                                <p class="small">Almacenamiento en la nube y sincronización de archivos.</p>
+                                <a href="https://drive.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-file-word tool-icon"></i>
+                                <h5>Google Docs</h5>
+                                <p class="small">Procesador de textos en línea con colaboración en tiempo real.</p>
+                                <a href="https://docs.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-file-excel tool-icon"></i>
+                                <h5>Google Sheets</h5>
+                                <p class="small">Hojas de cálculo en línea con funciones avanzadas.</p>
+                                <a href="https://sheets.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-file-powerpoint tool-icon"></i>
+                                <h5>Google Slides</h5>
+                                <p class="small">Crea presentaciones profesionales y colaborativas.</p>
+                                <a href="https://slides.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="diseno">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fab fa-canva tool-icon"></i>
+                                <h5>Canva</h5>
+                                <p class="small">Herramienta de diseño gráfico para no diseñadores.</p>
+                                <a href="https://www.canva.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-chalkboard-teacher tool-icon"></i>
+                                <h5>Google Classroom</h5>
+                                <p class="small">Plataforma de aprendizaje para instituciones educativas.</p>
+                                <a href="https://classroom.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-book tool-icon"></i>
+                                <h5>Google Scholar</h5>
+                                <p class="small">Buscador académico de literatura científica.</p>
+                                <a href="https://scholar.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-graduation-cap tool-icon"></i>
+                                <h5>Coursera</h5>
+                                <p class="small">Plataforma de cursos en línea de universidades.</p>
+                                <a href="https://www.coursera.org" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-graduation-cap tool-icon"></i>
+                                <h5>Santander Open Academy</h5>
+                                <p class="small">Plataforma de cursos en línea sobre distintas ramas.</p>
+                                <a href="https://www.santanderopenacademy.com/es/index.html" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-laptop-code tool-icon"></i>
+                                <h5>Udemy</h5>
+                                <p class="small">Plataforma de aprendizaje en línea con cursos variados.</p>
+                                <a href="https://www.udemy.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-chalkboard tool-icon"></i>
+                                <h5>Aprende.org</h5>
+                                <p class="small">Plataforma de aprendizaje en línea con cursos, diplomados, rutas de aprendizaje y especialidades.</p>
+                                <a href="https://aprende.org/capacitate" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-book tool-icon"></i>
+                                <h5>Oxford Learner's Dictionary</h5>
+                                <p class="small">Diccionario de inglés avanzado con pronunciaciones y ejemplos.</p>
+                                <a href="https://www.oxfordlearnersdictionaries.com/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-university tool-icon"></i>
+                                <h5>Cambridge Dictionary</h5>
+                                <p class="small">Diccionario de inglés de Cambridge con definiciones claras.</p>
+                                <a href="https://dictionary.cambridge.org/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-globe-europe tool-icon"></i>
+                                <h5>British Council</h5>
+                                <p class="small">Recursos para aprender inglés del British Council.</p>
+                                <a href="https://learnenglish.britishcouncil.org/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-check-circle tool-icon"></i>
+                                <h5>Test English</h5>
+                                <p class="small">Pruebas de nivel y ejercicios de inglés para todos los niveles.</p>
+                                <a href="https://test-english.com/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-globe-europe tool-icon"></i>
+                                <h5>Ejercicios Inglés Online</h5>
+                                <p class="small">Herramienta de ejercicios interactivos de inglés organizados por nivel y temática.</p>
+                                <a href="https://www.ejerciciosinglesonline.com/buscador" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Sección de Cursos -->
+<div id="materiales-section" class="hidden-section">
+    <!-- Font Awesome (asegúrate de incluirlo en tu <head>) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Contenedor con instrucciones -->
+    <div class="rounded-container" style="margin-bottom: 40px;">
+        <h3 class="section-title">Acceso a los cursos</h3>
+
+        <p>
+            Podrás acceder a la página con el mismo correo con el que registraste tu aportación con los administradores de <strong>EmilioColor México</strong>.
+        </p>
+
+        <p>
+            También podrás ingresar directamente con la misma <strong>cuenta de Google o Microsoft</strong> con la que inicias sesión en esta página.
+        </p>
+
+        <p>
+            Si aún no has hecho tu aportación, puedes consultarlo en nuestra página oficial de <strong>EmilioColor</strong> en el apartado de <strong>ClassCloud</strong>, como se muestra a continuación.
+        </p>
+
+        <a href="https://sites.google.com/view/classcloudpro-cursos/página-principal" 
+            class="btn btn-primary" 
+            target="_blank" 
+            rel="noopener noreferrer">
+            <i class="fas fa-book-open" style="margin-right: 8px;"></i> Acceder a la página de cursos
+        </a>
+
+        <!-- Texto muy pequeño y discreto -->
+        <p style="font-size: 0.7rem; margin-top: 12px; color: #999;">
+            O bien, puedes consultar nuestra página de Legalidad y Garantía para obtener más información sobre el acceso.
+        </p>
+    </div>
+
+    <!-- Iframe embebido de la página oficial -->
+    <iframe
+        src="https://emiliocolor.github.io/mx/#entorno"
+        width="100%"
+        height="800"
+        style="border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+        loading="lazy"
+        allowfullscreen>
+    </iframe>
+</div>
+            
+            <div id="chat-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-comments"></i> Chat Personal</h2>
+                    <p class="mb-4">Los mensajes se guardan localmente en tu navegador.</p>
+                    
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <h5>Chat Personal</h5>
+                            <small class="d-block">Escribe mensajes, enlaces o adjunta archivos</small>
+                        </div>
+                        
+                        <div class="chat-search-container p-3">
+                            <input type="text" class="form-control chat-search-input" id="chatSearchInput" placeholder="Buscar en mensajes...">
+                        </div>
+                        
+                        <div class="chat-messages" id="chatMessages">
+                        </div>
+                        
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <textarea id="messageInput" class="form-control" placeholder="Escribe un mensaje (Shift+Enter para nueva línea)" rows="1" style="border-radius: 8px;"></textarea>
+                                <button class="btn btn-primary" type="button" id="sendMessageBtn" style="border-radius: 0 8px 8px 0;">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-2">
+                                <div>
+                                    <button class="btn btn-sm btn-attach action-btn" id="attachFileBtn">
+                                        <i class="fas fa-paperclip"></i> Archivo
+                                    </button>
+                                    <input type="file" id="fileInput" style="display: none;">
+                                </div>
+                                <button class="btn btn-sm btn-clear action-btn" id="clearChatBtn">
+                                    <i class="fas fa-trash"></i> Limpiar chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="calendario-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Calendario</h2>
+                    <p>Organiza tus actividades y fechas importantes.</p>
+                    
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h4 class="calendar-title" id="calendarMonth">Mes Actual</h4>
+                            <div class="calendar-nav">
+                                <button class="btn btn-sm btn-outline" id="prevMonth">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline" id="nextMonth">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarDaysHeader">
+                            <div class="calendar-day-header">Dom</div>
+                            <div class="calendar-day-header">Lun</div>
+                            <div class="calendar-day-header">Mar</div>
+                            <div class="calendar-day-header">Mié</div>
+                            <div class="calendar-day-header">Jue</div>
+                            <div class="calendar-day-header">Vie</div>
+                            <div class="calendar-day-header">Sáb</div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarDays">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4 class="mb-3">Notas para <span id="selectedDateTitle">Hoy</span></h4>
+                        <textarea class="form-control notes-textarea" id="calendarNotes" placeholder="Escribe notas para este día..."></textarea>
+                        <button class="btn btn-primary mt-2" id="saveCalendarNotesBtn">
+                            <i class="fas fa-save me-2"></i>Guardar Notas
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección Contacto -->
+            <div id="contacto-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-envelope"></i> Contacto</h2>
+                    <p>¿Tienes alguna pregunta? No dudes en ponerte en contacto con nosotros.</p>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card tool-card p-4 h-100">
+                                <div class="contact-method mb-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-envelope text-primary me-3" style="font-size: 1.5rem;"></i>
+                                        <div>
+                                            <h5>Correo Electrónico</h5>
+                                            <a href="mailto:emiliocolormexico@gmail.com">emiliocolormexico@gmail.com</a>
+                                        </div>
+                                    </div>
+                                    <a href="mailto:emiliocolormexico@gmail.com" target="_blank" class="btn btn-primary d-block mb-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Enviar correo (celular)
+                                    </a>
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=emiliocolor@gmail.com" target="_blank" class="btn btn-primary d-block mb-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Enviar correo (computadora)
+                                    </a>
+                                </div>
+
+                                <div class="contact-method mb-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <i class="fas fa-phone-alt text-primary me-3" style="font-size: 1.5rem;"></i>
+                                        <div>
+                                            <h5>Teléfono</h5>
+                                            <a href="tel:+525625377747">+52 56 2537 7747</a>
+                                            <p class="small text-muted mb-0">Horario: Lunes a Viernes, 10am - 6pm</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-3">
+                                        <i class="fab fa-whatsapp text-primary me-3" style="font-size: 1.5rem;"></i>
+                                        <div>
+                                            <h5>WhatsApp</h5>
+                                            <a href="https://wa.me/525625377747" target="_blank">+52 56 2537 7747</a>
+                                            <p class="small text-muted mb-0">Horario: Lunes a Viernes, 10am - 6pm</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="contact-method">
+                                    <div class="mb-3">
+                                        <h5 class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt text-primary me-2" style="font-size: 1.2rem;"></i>
+                                            Ubicación
+                                        </h5>
+                                        <p>📍 México, Ciudad de México</p>
+                                        <p class="small text-muted mb-0">Atendemos a toda la República (con costo extra de envío).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card tool-card p-4 h-100">
+                                <h5 class="mb-4">Información Adicional</h5>
+                                <div class="mb-4">
+                                    <a href="https://emiliocolor.github.io/mx/legalidad_y_garantia.html" target="_blank" class="d-block mb-2 p-2 bg-light rounded">
+                                        <i class="fas fa-file-contract text-primary me-2"></i> Legalidad y Garantía
+                                    </a>
+                                    <a href="https://emiliocolor.github.io/mx/soporte_tecnico.html" target="_blank" class="d-block p-2 bg-light rounded">
+                                        <i class="fas fa-file-contract text-primary me-2"></i> Soporte Técnico
+                                    </a>
+                                </div>
+
+                                <h5 class="mb-3">Redes Sociales</h5>
+                                <p>Conectando contigo desde 2023.</p>
+                                <div class="d-flex gap-3 mb-4">
+                                    <a href="#" class="social-circle"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="https://www.instagram.com/emiliocolormx/" class="social-circle"><i class="fab fa-instagram"></i></a>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5 class="mb-2">Sobre Nosotros</h5>
+                                    <p class="small">
+                                        Este Entorno de Desarrollo Integral <strong>ClassCloud™ Pro</strong> es una marca comercial propiedad de <strong>EmilioColor®</strong>, desarrollada para el aprendizaje y desarrollo profesional. Está enfocada en brindar herramientas educativas de alta calidad.
+                                    </p>
+                                    <p class="">
+                                        <a href="https://emiliocolor.github.io/mx/#inicio" target="_blank">Sitio oficial</a>
+                                    </p>
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=emiliocolor@gmail.com" target="_blank" class="btn btn-primary d-block mb-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Enviar correo (computadora)
+                                    </a>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/favicon.png" alt="EmilioColor Logo" class="footer-logo-favicon mb-3">
+                                    <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/favicon_lyg.png" alt="Legalidad y Garantía" class="footer-logo-favicon mb-3">
+                                    <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/soporte%20tecnico.jpg" alt="EmilioColor Soporte" class="footer-logo-favicon mb-3">
+                                    <p class="small">Este sitio es propiedad de EmilioColor® y fue desarrollado para ofrecer productos y servicios de alta calidad.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-btn" id="settingsBtn">
+        <i class="fas fa-cog"></i>
+    </div>
+    
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <h3 class="mb-4"><i class="fas fa-cog me-2"></i> Configuración</h3>
+            
+            <div class="settings-tabs">
+                <div class="settings-tab active" data-tab="tools">Herramientas</div>
+                <div class="settings-tab" data-tab="shortcuts">Accesos Directos</div>
+            </div>
+
+            <div class="settings-tab-content active" id="tools-tab">
+                <h5 class="mb-3">Personaliza tus accesos rápidos a herramientas</h5>
+                <p>Selecciona las herramientas que deseas tener en tu acceso rápido:</p>
+                
+                <div class="custom-quick-access" id="tools-selection-container">
+                </div>
+                
+                <button class="btn btn-primary save-selection-btn" id="save-tools-selection">
+                    <i class="fas fa-save me-2"></i> Guardar Selección
+                </button>
+            </div>
+            
+            <div class="settings-tab-content" id="shortcuts-tab">
+                <h5 class="mb-3">Personaliza tus accesos directos en el sidebar</h5>
+                <p>Selecciona hasta 3 accesos directos para mostrar en el panel lateral:</p>
+                
+                <div class="custom-quick-access" id="shortcuts-selection-container">
+                </div>
+                
+                <button class="btn btn-primary save-selection-btn" id="save-shortcuts-selection">
+                    <i class="fas fa-save me-2"></i> Guardar Selección
+                </button>
+            </div>
+            
+            <div class="mt-4 pt-3 border-top">
+                <button class="btn btn-secondary" id="closeSettingsBtn">
+                    <i class="fas fa-times me-2"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/emiliocolor_1.png" alt="EmilioColor Logo" class="footer-logo">
+            <p>© 2025 EmilioColor® - Entorno de Desarrollo Integral | <strong>ClassCloud™ Pro.</strong> Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
