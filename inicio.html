@@ -1,879 +1,802 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const nameModal = new bootstrap.Modal(document.getElementById('nameModal'));
-    const organizeCoursesModal = new bootstrap.Modal(document.getElementById('organizeCoursesModal'));
-    
-    // Elimina o comenta este bloque de verificación de autenticación
-    const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
-    if (!isAuthenticated) {
-        window.location.href = "index.html";
-        return;
-    }
-
-    // Toggle sidebar en móviles
-    document.getElementById('toggleSidebar').addEventListener('click', function() {
-        document.getElementById('sidebar').classList.toggle('mobile-active');
-    });
-
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
-        e.preventDefault();
-        sessionStorage.removeItem('authenticated');
-        sessionStorage.removeItem('username');
-        window.location.href = "index.html";
-    });
-
-    function updateUserName() {
-        const savedName = localStorage.getItem('userName') || 'Usuario';
-        document.getElementById('userWelcome').textContent = `Bienvenido, ${savedName}`;
-        document.getElementById('welcomeTitle').textContent = `Bienvenido, ${savedName}`;
-        document.getElementById('welcomeMessage').textContent = `Accede a todas las herramientas digitales y materiales educativos que necesitas para tu crecimiento profesional y personal.`;
-    }
-    
-    updateUserName();
-    
-    document.getElementById('editNameBtn').addEventListener('click', function() {
-        const currentName = localStorage.getItem('userName') || '';
-        document.getElementById('userNameInput').value = currentName;
-        nameModal.show();
-    });
-    
-    document.getElementById('saveNameBtn').addEventListener('click', function() {
-        const newName = document.getElementById('userNameInput').value.trim();
-        if (newName) {
-            localStorage.setItem('userName', newName);
-            updateUserName();
-            nameModal.hide();
-            
-            const notification = document.createElement('div');
-            notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-            notification.style.zIndex = '1000';
-            notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Nombre actualizado</strong>';
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2000);
-        }
-    });
-
-    // Abrir modal para organizar cursos
-    document.getElementById('openOrganizeCoursesModal').addEventListener('click', function() {
-        loadCourses();
-        organizeCoursesModal.show();
-    });
-
-    // Función para cargar cursos guardados
-    function loadCourses() {
-        const savedCourses = JSON.parse(localStorage.getItem('userCourses')) || [];
-        const coursesList = document.getElementById('coursesList');
-        coursesList.innerHTML = '';
-        
-        const savedEmail = localStorage.getItem('courseEmail') || 'No se ha guardado ningún correo aún.';
-        document.getElementById('courseEmailInput').value = savedEmail;
-        document.getElementById('savedCourseEmail').textContent = savedEmail;
-        
-        savedCourses.forEach((course, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${course.name}</td>
-                <td>${course.section}</td>
-                <td>
-                    <button class="btn btn-sm btn-danger delete-course-btn" data-index="${index}">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            coursesList.appendChild(row);
-        });
-        
-        // Actualizar tabla de resumen
-        const coursesSummaryList = document.getElementById('coursesSummaryList');
-        coursesSummaryList.innerHTML = '';
-        
-        savedCourses.forEach((course, index) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${course.name}</td>
-                <td>${course.section}</td>
-                <td>
-                    <button class="btn btn-sm btn-danger delete-course-btn" data-index="${index}">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            `;
-            coursesSummaryList.appendChild(row);
-        });
-        
-        // Agregar event listeners a los botones de eliminar
-        document.querySelectorAll('.delete-course-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const index = parseInt(this.getAttribute('data-index'));
-                deleteCourse(index);
-            });
-        });
-    }
-    
-    // Función para agregar un nuevo curso
-    document.getElementById('addCourseBtn').addEventListener('click', function() {
-        const email = document.getElementById('courseEmailInput').value.trim();
-        const name = document.getElementById('courseNameInput').value.trim();
-        const section = document.getElementById('courseSectionInput').value;
-        
-        if (email && name) {
-            // Guardar el correo
-            localStorage.setItem('courseEmail', email);
-            document.getElementById('savedCourseEmail').textContent = email;
-            
-            // Guardar el curso
-            const savedCourses = JSON.parse(localStorage.getItem('userCourses')) || [];
-            savedCourses.push({ name, section });
-            localStorage.setItem('userCourses', JSON.stringify(savedCourses));
-            
-            // Limpiar campos
-            document.getElementById('courseNameInput').value = '';
-            
-            // Actualizar lista
-            loadCourses();
-            
-            // Mostrar notificación
-            const notification = document.createElement('div');
-            notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-            notification.style.zIndex = '1000';
-            notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Curso guardado</strong>';
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2000);
-        } else {
-            alert('Por favor completa todos los campos');
-        }
-    });
-    
-    // Función para eliminar un curso
-    function deleteCourse(index) {
-        if (confirm('¿Estás seguro de que quieres eliminar este curso?')) {
-            const savedCourses = JSON.parse(localStorage.getItem('userCourses')) || [];
-            savedCourses.splice(index, 1);
-            localStorage.setItem('userCourses', JSON.stringify(savedCourses));
-            loadCourses();
-            
-            const notification = document.createElement('div');
-            notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-            notification.style.zIndex = '1000';
-            notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Curso eliminado</strong>';
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2000);
-        }
-    }
-    
-    // Cargar cursos al iniciar
-    loadCourses();
-
-    const navLinks = document.querySelectorAll('.sidebar-nav-link');
-    const sections = document.querySelectorAll('[id$="-section"]');
-    
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            navLinks.forEach(navLink => navLink.classList.remove('active'));
-            this.classList.add('active');
-            
-            const sectionId = this.getAttribute('data-section') + '-section';
-            sections.forEach(section => {
-                section.classList.remove('active-section');
-                section.classList.add('hidden-section');
-            });
-            
-            document.getElementById(sectionId).classList.remove('hidden-section');
-            document.getElementById(sectionId).classList.add('active-section');
-            
-            // Cerrar sidebar en móviles al seleccionar una opción
-            if (window.innerWidth < 992) {
-                document.getElementById('sidebar').classList.remove('mobile-active');
-            }
-        });
-    });
-
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const toolItems = document.querySelectorAll('.tool-item');
-    
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            const filterValue = button.getAttribute('data-filter');
-            
-            toolItems.forEach(item => {
-                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
-    
-    const materialFilterButtons = document.querySelectorAll('#materiales-section .filter-btn');
-    const materialItems = document.querySelectorAll('.material-item');
-    
-    materialFilterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            materialFilterButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-            
-            const filterValue = button.getAttribute('data-filter');
-            
-            materialItems.forEach(item => {
-                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
-    
-    const sidebarFilterButtons = document.querySelectorAll('.filter-btn-sidebar');
-    
-    sidebarFilterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            document.querySelector('.sidebar-nav-link[data-section="herramientas"]').click();
-            const filterValue = button.getAttribute('data-filter');
-            document.querySelector(`.filter-btn[data-filter="${filterValue}"]`).click();
-        });
-    });
-    
-    const chatMessages = document.getElementById('chatMessages');
-    const messageInput = document.getElementById('messageInput');
-    const sendMessageBtn = document.getElementById('sendMessageBtn');
-    const clearChatBtn = document.getElementById('clearChatBtn');
-    const attachFileBtn = document.getElementById('attachFileBtn');
-    const fileInput = document.getElementById('fileInput');
-    const chatSearchInput = document.getElementById('chatSearchInput');
-    
-    function loadMessages() {
-        const savedMessages = localStorage.getItem('chatMessages');
-        if (savedMessages) {
-            chatMessages.innerHTML = savedMessages;
-            scrollToBottom();
-        }
-    }
-    
-    function saveMessages() {
-        localStorage.setItem('chatMessages', chatMessages.innerHTML);
-    }
-    
-    function sendMessage() {
-        const messageText = messageInput.value.trim();
-        if (messageText === '') return;
-        
-        if (isValidUrl(messageText)) {
-            const linkDescription = prompt("Por favor describe de qué se trata este enlace:", "Enlace importante");
-            if (linkDescription === null) return;
-            
-            addMessage(`${linkDescription}: <a href="${messageText}" target="_blank">${messageText}</a>`, 'user');
-        } else {
-            addMessage(messageText.replace(/\n/g, '<br>'), 'user');
-        }
-        
-        messageInput.value = '';
-        saveMessages();
-    }
-    
-    function isValidUrl(string) {
-        try {
-            new URL(string);
-            return true;
-        } catch (_) {
-            return false;
-        }
-    }
-    
-    function addMessage(text, sender) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message');
-        
-        if (sender === 'user') {
-            messageDiv.classList.add('user-message');
-            messageDiv.innerHTML = `
-                <div class="message-actions">
-                    <button class="message-action-btn" onclick="copyMessage(this)"><i class="fas fa-copy"></i></button>
-                    <button class="message-action-btn" onclick="editMessage(this)"><i class="fas fa-edit"></i></button>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmilioColor® - ClassCloud™ Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="https://raw.githubusercontent.com/emiversal/database/eeb552d9845c21779f0976503e696ebcd9f638ab/imagenes_classcloud/favicon.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Modal para editar nombre (existente) -->
+    <div class="modal fade" id="nameModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar tu nombre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <p>${text}</p>
-            `;
-        } else if (sender === 'system') {
-            messageDiv.classList.add('system-message');
-            messageDiv.innerHTML = `<p><i class="fas fa-info-circle me-2"></i>${text}</p>`;
-        }
-        
-        chatMessages.appendChild(messageDiv);
-        scrollToBottom();
-    }
-    
-    window.copyMessage = function(btn) {
-        const messageText = btn.closest('.message').querySelector('p').textContent;
-        navigator.clipboard.writeText(messageText);
-        
-        const notification = document.createElement('div');
-        notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-        notification.style.zIndex = '1000';
-        notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Mensaje copiado</strong>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.remove();
-        }, 2000);
-    };
-    
-    window.editMessage = function(btn) {
-        const messageDiv = btn.closest('.message');
-        const messageText = messageDiv.querySelector('p').textContent;
-        
-        const editInput = document.createElement('textarea');
-        editInput.className = 'form-control mb-2';
-        editInput.value = messageText;
-        
-        const saveBtn = document.createElement('button');
-        saveBtn.className = 'btn btn-primary btn-sm me-2';
-        saveBtn.textContent = 'Guardar';
-        saveBtn.onclick = function() {
-            messageDiv.querySelector('p').innerHTML = editInput.value.replace(/\n/g, '<br>');
-            saveMessages();
-        };
-        
-        const cancelBtn = document.createElement('button');
-        cancelBtn.className = 'btn btn-secondary btn-sm';
-        cancelBtn.textContent = 'Cancelar';
-        cancelBtn.onclick = function() {
-            messageDiv.querySelector('p').style.display = 'block';
-            editContainer.remove();
-        };
-        
-        const editContainer = document.createElement('div');
-        editContainer.appendChild(editInput);
-        editContainer.appendChild(saveBtn);
-        editContainer.appendChild(cancelBtn);
-        
-        messageDiv.querySelector('p').style.display = 'none';
-        messageDiv.insertBefore(editContainer, messageDiv.querySelector('p'));
-    };
-    
-    function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-    
-    sendMessageBtn.addEventListener('click', sendMessage);
-    
-    messageInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
-    
-    clearChatBtn.addEventListener('click', function() {
-        if (confirm('¿Estás seguro de que quieres borrar todo el historial del chat?')) {
-            chatMessages.innerHTML = '';
-            localStorage.removeItem('chatMessages');
-        }
-    });
-    
-    attachFileBtn.addEventListener('click', function() {
-        fileInput.click();
-    });
-    
-    fileInput.addEventListener('change', function() {
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            const fileUrl = URL.createObjectURL(file);
-            
-            if (file.type.startsWith('image/')) {
-                addMessage(`Archivo adjunto: ${file.name}`, 'user');
-                addMessage(`<img src="${fileUrl}" class="img-fluid" alt="${file.name}" style="max-width: 100%; border-radius: 8px;">`, 'user');
-            } else {
-                addMessage(`Archivo adjunto: <a href="${fileUrl}" download="${file.name}">${file.name}</a>`, 'user');
-            }
-            
-            saveMessages();
-        }
-    });
-    
-    chatSearchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const messages = chatMessages.querySelectorAll('.message');
-        
-        messages.forEach(message => {
-            const text = message.textContent.toLowerCase();
-            if (text.includes(searchTerm)) {
-                message.style.display = 'block';
-                const html = message.innerHTML;
-                const highlighted = html.replace(
-                    new RegExp(searchTerm, 'gi'),
-                    match => `<span style="background-color: yellow;">${match}</span>`
-                );
-                message.innerHTML = highlighted;
-            } else {
-                message.style.display = 'none';
-            }
-        });
-    });
-    
-    loadMessages();
-    
-    const searchInputs = document.querySelectorAll('.search-input');
-    
-    searchInputs.forEach(input => {
-        input.addEventListener('keyup', function() {
-            const searchTerm = this.value.toLowerCase();
-            const sectionId = this.closest('.rounded-container').querySelector('.section-title').getAttribute('id').replace('-section', '');
-            
-            if (sectionId === 'herramientas') {
-                toolItems.forEach(item => {
-                    const title = item.querySelector('h5').textContent.toLowerCase();
-                    const description = item.querySelector('p').textContent.toLowerCase();
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="userNameInput" class="form-label">Tu nombre:</label>
+                        <input type="text" class="form-control" id="userNameInput">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="saveNameBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para organizar cursos -->
+    <div class="modal fade" id="organizeCoursesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Organizar Mis Cursos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="courseEmailInput" class="form-label">Correo asociado a los cursos:</label>
+                        <input type="email" class="form-control" id="courseEmailInput">
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseNameInput" class="form-label">Nombre del curso:</label>
+                        <input type="text" class="form-control" id="courseNameInput">
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseSectionInput" class="form-label">Sección del curso:</label>
+                        <select class="form-select" id="courseSectionInput">
+                            <option value="programacion">Programación</option>
+                            <option value="diseno">Diseño</option>
+                            <option value="negocios">Negocios</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="idiomas">Idiomas</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="addCourseBtn">Agregar Curso</button>
                     
-                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                        item.style.display = 'block';
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                        }, 50);
-                    } else {
-                        item.style.opacity = '0';
-                        setTimeout(() => {
-                            item.style.display = 'none';
-                        }, 300);
-                    }
-                });
-            } else if (sectionId === 'materiales') {
-                materialItems.forEach(item => {
-                    const title = item.querySelector('h5').textContent.toLowerCase();
-                    const description = item.querySelector('p').textContent.toLowerCase();
-                    
-                    if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                        item.style.display = 'block';
-                        setTimeout(() => {
-                            item.style.opacity = '1';
-                        }, 50);
-                    } else {
-                        item.style.opacity = '0';
-                        setTimeout(() => {
-                            item.style.display = 'none';
-                        }, 300);
-                    }
-                });
-            }
-        });
-    });
-    
-    const personalNotes = document.getElementById('personalNotes');
-    const saveNotesBtn = document.getElementById('saveNotesBtn');
-    
-    const savedNotes = localStorage.getItem('personalNotes');
-    if (savedNotes) {
-        personalNotes.value = savedNotes;
-    }
-    
-    saveNotesBtn.addEventListener('click', function() {
-        localStorage.setItem('personalNotes', personalNotes.value);
-        
-        const notification = document.createElement('div');
-        notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-        notification.style.zIndex = '1000';
-        notification.style.borderRadius = '8px';
-        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-        notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Notas guardadas</strong>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.add('fade');
-            setTimeout(() => {
-                notification.remove();
-            }, 500);
-        }, 3000);
-    });
-    
-    const calendarMonth = document.getElementById('calendarMonth');
-    const calendarDays = document.getElementById('calendarDays');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
-    const calendarNotes = document.getElementById('calendarNotes');
-    const saveCalendarNotesBtn = document.getElementById('saveCalendarNotesBtn');
-    const selectedDateTitle = document.getElementById('selectedDateTitle');
-    
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
-    let selectedDate = currentDate;
-    
-    function renderCalendar() {
-        calendarDays.innerHTML = '';
-        
-        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
-                           "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-        calendarMonth.textContent = `${monthNames[currentMonth]} ${currentYear}`;
-        
-        const firstDay = new Date(currentYear, currentMonth, 1);
-        const lastDay = new Date(currentYear, currentMonth + 1, 0);
-        
-        const firstDayOfWeek = firstDay.getDay();
-        
-        const prevLastDay = new Date(currentYear, currentMonth, 0).getDate();
-        
-        for (let i = firstDayOfWeek - 1; i >= 0; i--) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day other-month';
-            dayElement.textContent = prevLastDay - i;
-            calendarDays.appendChild(dayElement);
-        }
-        
-        for (let i = 1; i <= lastDay.getDate(); i++) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day';
+                    <div class="mt-4">
+                        <h5>Mis Cursos Guardados</h5>
+                        <div class="table-responsive">
+                            <table class="table" id="coursesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Sección</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coursesList">
+                                    <!-- Los cursos se agregarán aquí dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="btn btn-sm btn-outline-light d-block d-lg-none mb-3" id="toggleSidebar">
+                    <i class="fas fa-bars"></i> Menú
+                </button>
+                <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>" type="image/svg+xml">
+                <p style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.2rem; text-align: center;">
+                    <i class="fas fa-cloud" style="display: block; font-size: 2rem; margin-bottom: 0.2rem;"></i>
+                    ClassCloud™ Pro
+                </p>
+                <p style="font-size: 0.9rem; margin-bottom: 1rem;">Todo en un solo lugar</p>
+                <h4 id="userWelcome" style="display: none;">Classcloud™ Pro - Todo en un solo lugar</h4>
+                <button class="btn btn-sm btn-outline-light mt-2" id="editNameBtn">
+                    <i class="fas fa-user-edit me-1"></i> Editar nombre
+                </button>
+            </div>
             
-            const dayNumber = document.createElement('div');
-            dayNumber.className = 'day-number';
-            dayNumber.textContent = i;
-            dayElement.appendChild(dayNumber);
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item">
+                    <a href="#inicio" class="sidebar-nav-link active" data-section="inicio">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#herramientas" class="sidebar-nav-link" data-section="herramientas">
+                        <i class="fas fa-tools"></i> Herramientas
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#materiales" class="sidebar-nav-link" data-section="materiales">
+                        <i class="fas fa-book"></i> Cursos
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#organizar-cursos" class="sidebar-nav-link" data-section="organizar-cursos">
+                        <i class="fas fa-tasks"></i> Organizar Cursos
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#chat" class="sidebar-nav-link" data-section="chat">
+                        <i class="fas fa-comments"></i> Chat Personal
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#calendario" class="sidebar-nav-link" data-section="calendario">
+                        <i class="fas fa-calendar-alt"></i> Calendario
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#contacto" class="sidebar-nav-link" data-section="contacto">
+                        <i class="fas fa-envelope"></i> Contacto
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="https://emiliocolor.github.io/mx/#entorno" class="sidebar-nav-link" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </li>
+            </ul>
             
-            const dayDate = new Date(currentYear, currentMonth, i);
-            if (currentDate.getDate() === i && 
-                currentDate.getMonth() === currentMonth && 
-                currentDate.getFullYear() === currentYear) {
-                dayElement.classList.add('today');
-            }
+            <div class="mt-4 pt-3">
+                <h5 class="text-white mb-3">Filtros Rápidos</h5>
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="all">Todas</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="desarrollo">Desarrollo</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="ia">IA</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="google">Google</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="diseno">Diseño</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="educacion">Educación</button>
+                    <button class="btn btn-sm btn-outline-light mb-2 me-2 filter-btn-sidebar" data-filter="ingles">Inglés</button>
+                </div>
+            </div>
             
-            const dayKey = formatDateKey(dayDate);
-            const dayNotes = localStorage.getItem(`calendarNotes_${dayKey}`);
-            if (dayNotes) {
-                const notesDiv = document.createElement('div');
-                notesDiv.className = 'calendar-note';
-                notesDiv.textContent = dayNotes.length > 20 ? dayNotes.substring(0, 20) + '...' : dayNotes;
-                dayElement.appendChild(notesDiv);
-            }
-            
-            dayElement.addEventListener('click', function() {
-                selectedDate = dayDate;
-                selectedDateTitle.textContent = formatDate(dayDate);
+            <div class="mt-4 pt-3">
+                <h5 class="text-white mb-3">Accesos Directos</h5>
+                <div id="custom-shortcuts">
+                    <!-- Aquí se agregarán los accesos directos personalizados -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div id="inicio-section" class="active-section">
+                <div class="home-hero">
+                    <h1 id="welcomeTitle">Bienvenido al Entorno de Desarrollo Integral</h1>
+                    <p id="welcomeMessage">Accede a todas las herramientas digitales...</p>
+                    <button class="btn btn-explore" id="exploreSectionBtn" data-target-section="herramientas">Explorar Herramientas</button>
+                    <div class="reminder-bubble">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Recuerda revisar tu calendario</span>
+                    </div>
+                </div>
                 
-                const selectedDayKey = formatDateKey(dayDate);
-                const selectedDayNotes = localStorage.getItem(`calendarNotes_${selectedDayKey}`);
-                calendarNotes.value = selectedDayNotes || '';
-            });
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <div class="home-card">
+                            <h3>Herramientas Disponibles</h3>
+                            <div class="stat-number">25</div>
+                            <p class="stat-label">Plataformas y recursos para tu desarrollo</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="home-card">
+                            <h3>Recursos Digitales</h3>
+                            <div class="stat-number">+110,000</div>
+                            <p class="stat-label">En 8 áreas de conocimiento diferentes</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="home-card">
+                            <h3>Cursos</h3>
+                            <div class="stat-number">15,000</div>
+                            <p class="stat-label">Con disponibilidad desde cualquier lugar<strong>¡se agregan nuevos cada semana!</strong></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rounded-container mb-4">
+                    <h3 class="section-title">Novedades y Actualizaciones</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="alert alert-custom mb-3">
+                                <strong>Nueva herramienta añadida:</strong> DeepSeek AI ahora disponible en la sección de Inteligencia Artificial.
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-custom">
+                                <strong>Actualización:</strong> Se han añadido nuevos cursos de programación en JavaScript avanzado.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+<div class="rounded-container h-100">
+    <h3 class="section-title">Notas Personales</h3>
+    <p>Guarda tus notas personales aquí. Se guardarán automáticamente en tu navegador.</p>
+    
+    <div class="notes-container">
+        <textarea class="notes-textarea" id="personalNotes" placeholder="Escribe tus notas aquí..."></textarea>
+        
+        <div class="d-flex gap-2 mt-2">
+            <button class="btn btn-primary save-notes-btn" id="saveNotesBtn">
+                Guardar Notas
+            </button>
+<button class="btn save-notes-btn" id="openKeepBtn" style="background-color: #FBBC04; color: rgb(255, 255, 255);">
+    Acceder a Notas Keep
+</button>
+<script>
+    document.getElementById('openKeepBtn').addEventListener('click', function () {
+        window.open('https://keep.google.com/', '_blank');
+    });
+</script>
+        </div>
+    </div>
+</div>
+
+                    </div>
+<div class="col-md-6">
+    <div class="rounded-container h-100">
+        <h3 class="section-title">Acceso Rápido a Herramientas</h3>
+        
+        <ul class="quick-access-list" id="quick-tools-access">
+            <!-- Aquí se agregarán las herramientas -->
+        </ul>
+
+        <!-- Nota informativa -->
+        <p class="text-muted mt-3" style="font-size: 0.9rem;">
+            * Estas herramientas se configuran desde el botón del engranaje.
+        </p>
+    </div>
+</div>
+
+                </div>
+            </div>
             
-            calendarDays.appendChild(dayElement);
-        }
-        
-        const daysLeft = 42 - (firstDayOfWeek + lastDay.getDate());
-        for (let i = 1; i <= daysLeft; i++) {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'calendar-day other-month';
-            dayElement.textContent = i;
-            calendarDays.appendChild(dayElement);
-        }
-        
-        if (selectedDate.getMonth() === currentMonth && selectedDate.getFullYear() === currentYear) {
-            selectedDateTitle.textContent = formatDate(selectedDate);
-            const selectedDayKey = formatDateKey(selectedDate);
-            const selectedDayNotes = localStorage.getItem(`calendarNotes_${selectedDayKey}`);
-            calendarNotes.value = selectedDayNotes || '';
-        } else {
-            selectedDateTitle.textContent = 'Hoy';
-            const todayKey = formatDateKey(currentDate);
-            const todayNotes = localStorage.getItem(`calendarNotes_${todayKey}`);
-            calendarNotes.value = todayNotes || '';
-        }
-    }
-    
-    function formatDateKey(date) {
-        const d = new Date(date);
-        let month = '' + (d.getMonth() + 1);
-        let day = '' + d.getDate();
-        const year = d.getFullYear();
-        
-        if (month.length < 2) month = '0' + month;
-        if (day.length < 2) day = '0' + day;
-        
-        return [year, month, day].join('-');
-    }
-    
-    function formatDate(date) {
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        return date.toLocaleDateString('es-ES', options);
-    }
-    
-    saveCalendarNotesBtn.addEventListener('click', function() {
-        const dayKey = formatDateKey(selectedDate);
-        localStorage.setItem(`calendarNotes_${dayKey}`, calendarNotes.value);
-        
-        renderCalendar();
-        
-        const notification = document.createElement('div');
-        notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-        notification.style.zIndex = '1000';
-        notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Notas guardadas</strong>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.remove();
-        }, 2000);
-    });
-    
-    prevMonthBtn.addEventListener('click', function() {
-        currentMonth--;
-        if (currentMonth < 0) {
-            currentMonth = 11;
-            currentYear--;
-        }
-        renderCalendar();
-    });
-    
-    nextMonthBtn.addEventListener('click', function() {
-        currentMonth++;
-        if (currentMonth > 11) {
-            currentMonth = 0;
-            currentYear++;
-        }
-        renderCalendar();
-    });
-    
-    renderCalendar();
-    
-    const settingsBtn = document.getElementById('settingsBtn');
-    const settingsModal = document.getElementById('settingsModal');
-    const closeSettingsBtn = document.getElementById('closeSettingsBtn');
-    const settingsTabs = document.querySelectorAll('.settings-tab');
-    
-    settingsBtn.addEventListener('click', function() {
-        settingsModal.classList.add('active');
-    });
-    
-    closeSettingsBtn.addEventListener('click', function() {
-        settingsModal.classList.remove('active');
-    });
-    
-    settingsTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            settingsTabs.forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
+            <div id="herramientas-section" class="hidden-section">
+                <div class="rounded-container mb-4">
+                    <h2 class="section-title"><i class="fas fa-tools"></i> Herramientas Digitales</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="form-control search-input" placeholder="Buscar herramientas...">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="desarrollo">Desarrollo</button>
+                        <button class="filter-btn" data-filter="ia">Inteligencia Artificial</button>
+                        <button class="filter-btn" data-filter="google">Google Workspace</button>
+                        <button class="filter-btn" data-filter="diseno">Diseño</button>
+                        <button class="filter-btn" data-filter="educacion">Educación</button>
+                        <button class="filter-btn" data-filter="ingles">Inglés</button>
+                    </div>
+                    
+                    <div class="row g-4">
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="desarrollo">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fab fa-github tool-icon"></i>
+                                <h5>GitHub</h5>
+                                <p class="small">Plataforma de desarrollo colaborativo y control de versiones.</p>
+                                <a href="https://github.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-robot tool-icon"></i>
+                                <h5>DeepSeek</h5>
+                                <p class="small">Plataforma avanzada de inteligencia artificial y aprendizaje automático.</p>
+                                <a href="https://chat.deepseek.com/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-brain tool-icon"></i>
+                                <h5>ChatGPT</h5>
+                                <p class="small">Asistente de IA para generación de texto y resolución de problemas.</p>
+                                <a href="https://chat.openai.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-gem tool-icon"></i>
+                                <h5>Gemini AI</h5>
+                                <p class="small">Modelo avanzado de IA de Google para diversas aplicaciones.</p>
+                                <a href="https://gemini.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ia">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-box tool-icon"></i>
+                                <h5>Blackbox AI</h5>
+                                <p class="small">Herramienta de IA para desarrollo de código y asistencia técnica.</p>
+                                <a href="https://www.blackbox.ai" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fab fa-google-drive tool-icon"></i>
+                                <h5>Google Drive</h5>
+                                <p class="small">Almacenamiento en la nube y sincronización de archivos.</p>
+                                <a href="https://drive.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-file-word tool-icon"></i>
+                                <h5>Google Docs</h5>
+                                <p class="small">Procesador de textos en línea con colaboración en tiempo real.</p>
+                                <a href="https://docs.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-file-excel tool-icon"></i>
+                                <h5>Google Sheets</h5>
+                                <p class="small">Hojas de cálculo en línea con funciones avanzadas.</p>
+                                <a href="https://sheets.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="google">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-file-powerpoint tool-icon"></i>
+                                <h5>Google Slides</h5>
+                                <p class="small">Crea presentaciones profesionales y colaborativas.</p>
+                                <a href="https://slides.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="diseno">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fab fa-canva tool-icon"></i>
+                                <h5>Canva</h5>
+                                <p class="small">Herramienta de diseño gráfico para no diseñadores.</p>
+                                <a href="https://www.canva.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-chalkboard-teacher tool-icon"></i>
+                                <h5>Google Classroom</h5>
+                                <p class="small">Plataforma de aprendizaje para instituciones educativas.</p>
+                                <a href="https://classroom.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-book tool-icon"></i>
+                                <h5>Google Scholar</h5>
+                                <p class="small">Buscador académico de literatura científica.</p>
+                                <a href="https://scholar.google.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-graduation-cap tool-icon"></i>
+                                <h5>Coursera</h5>
+                                <p class="small">Plataforma de cursos en línea de universidades.</p>
+                                <a href="https://www.coursera.org" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-graduation-cap tool-icon"></i>
+                                <h5>Santander Open Academy</h5>
+                                <p class="small">Plataforma de cursos en línea sobre distintas ramas.</p>
+                                <a href="https://www.santanderopenacademy.com/es/index.html" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-laptop-code tool-icon"></i>
+                                <h5>Udemy</h5>
+                                <p class="small">Plataforma de aprendizaje en línea con cursos variados.</p>
+                                <a href="https://www.udemy.com" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="educacion">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-chalkboard tool-icon"></i>
+                                <h5>Aprende.org</h5>
+                                <p class="small">Plataforma de aprendizaje en línea con cursos, diplomados, rutas de aprendizaje y especialidades.</p>
+                                <a href="https://aprende.org/capacitate" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-book tool-icon"></i>
+                                <h5>Oxford Learner's Dictionary</h5>
+                                <p class="small">Diccionario de inglés avanzado con pronunciaciones y ejemplos.</p>
+                                <a href="https://www.oxfordlearnersdictionaries.com/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-university tool-icon"></i>
+                                <h5>Cambridge Dictionary</h5>
+                                <p class="small">Diccionario de inglés de Cambridge con definiciones claras.</p>
+                                <a href="https://dictionary.cambridge.org/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-globe-europe tool-icon"></i>
+                                <h5>British Council</h5>
+                                <p class="small">Recursos para aprender inglés del British Council.</p>
+                                <a href="https://learnenglish.britishcouncil.org/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-check-circle tool-icon"></i>
+                                <h5>Test English</h5>
+                                <p class="small">Pruebas de nivel y ejercicios de inglés para todos los niveles.</p>
+                                <a href="https://test-english.com/" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-3 tool-item" data-category="ingles">
+                            <div class="card tool-card p-3 text-center">
+                                <i class="fas fa-globe-europe tool-icon"></i>
+                                <h5>Ejercicios Inglés Online</h5>
+                                <p class="small">Herramienta de ejercicios interactivos de inglés organizados por nivel y temática.</p>
+                                <a href="https://www.ejerciciosinglesonline.com/buscador" target="_blank" class="btn btn-primary btn-sm">Acceder</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            document.querySelectorAll('.settings-tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
+<!-- Sección de Cursos -->
+<div id="materiales-section" class="hidden-section">
+    <!-- Font Awesome (asegúrate de incluirlo en tu <head>) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Contenedor con instrucciones -->
+    <div class="rounded-container" style="margin-bottom: 40px;">
+        <h3 class="section-title">Acceso a los cursos</h3>
+
+        <p>
+            Podrás acceder a la página con el mismo correo con el que registraste tu aportación con los administradores de <strong>EmilioColor México</strong>.
+        </p>
+
+        <p>
+            También podrás ingresar directamente con la misma <strong>cuenta de Google o Microsoft</strong> con la que inicias sesión en esta página.
+        </p>
+
+        <p>
+            Si aún no has hecho tu aportación, puedes consultarlo en nuestra página oficial de <strong>EmilioColor</strong> en el apartado de <strong>ClassCloud</strong>, como se muestra a continuación.
+        </p>
+
+        <a href="https://sites.google.com/view/classcloudpro-cursos/página-principal" 
+            class="btn btn-primary" 
+            target="_blank" 
+            rel="noopener noreferrer">
+            <i class="fas fa-book-open" style="margin-right: 8px;"></i> Acceder a la página de cursos
+        </a>
+
+        <!-- Texto muy pequeño y discreto -->
+        <p style="font-size: 0.7rem; margin-top: 12px; color: #999;">
+            O bien, puedes consultar nuestra página de Legalidad y Garantía para obtener más información sobre el acceso.
+        </p>
+    </div>
+
+    <!-- Iframe embebido de la página oficial -->
+    <iframe
+        src="https://classcloud.emiliocolor.com"
+        width="100%"
+        height="800"
+        style="border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);"
+        loading="lazy"
+        allowfullscreen>
+    </iframe>
+</div>
             
-            const tabId = this.getAttribute('data-tab') + '-tab';
-            document.getElementById(tabId).classList.add('active');
-        });
-    });
-    
-    const toolsData = [
-        { name: 'GitHub', icon: 'fab fa-github', url: 'https://github.com', category: 'desarrollo' },
-        { name: 'DeepSeek', icon: 'fas fa-robot', url: 'https://chat.deepseek.com/', category: 'ia' },
-        { name: 'ChatGPT', icon: 'fas fa-brain', url: 'https://chat.openai.com', category: 'ia' },
-        { name: 'Gemini AI', icon: 'fas fa-gem', url: 'https://gemini.google.com', category: 'ia' },
-        { name: 'Blackbox AI', icon: 'fas fa-box', url: 'https://www.blackbox.ai', category: 'ia' },
-        { name: 'Google Drive', icon: 'fab fa-google-drive', url: 'https://drive.google.com', category: 'google' },
-        { name: 'Google Docs', icon: 'fas fa-file-word', url: 'https://docs.google.com', category: 'google' },
-        { name: 'Google Sheets', icon: 'fas fa-file-excel', url: 'https://sheets.google.com', category: 'google' },
-        { name: 'Google Slides', icon: 'fas fa-file-powerpoint', url: 'https://slides.google.com', category: 'google' },
-        { name: 'Canva', icon: 'fab fa-canva', url: 'https://www.canva.com', category: 'diseno' },
-        { name: 'Google Classroom', icon: 'fas fa-chalkboard-teacher', url: 'https://classroom.google.com', category: 'educacion' },
-        { name: 'Google Scholar', icon: 'fas fa-book', url: 'https://scholar.google.com', category: 'educacion' },
-        { name: 'Coursera', icon: 'fas fa-graduation-cap', url: 'https://www.coursera.org', category: 'educacion' },
-        { name: 'Santander Open Academy', icon: 'fas fa-graduation-cap', url: 'https://www.santanderopenacademy.com/es/index.html', category: 'educacion' },
-        { name: 'Udemy', icon: 'fas fa-laptop-code', url: 'https://www.udemy.com', category: 'educacion' },
-        { name: 'Aprende.org', icon: 'fas fa-chalkboard', url: 'https://aprende.org/capacitate', category: 'educacion' },
-        { name: 'Oxford Learner\'s Dictionary', icon: 'fas fa-book', url: 'https://www.oxfordlearnersdictionaries.com/', category: 'ingles' },
-        { name: 'Cambridge Dictionary', icon: 'fas fa-university', url: 'https://dictionary.cambridge.org/', category: 'ingles' },
-        { name: 'British Council', icon: 'fas fa-globe-europe', url: 'https://learnenglish.britishcouncil.org/', category: 'ingles' },
-        { name: 'Test English', icon: 'fas fa-check-circle', url: 'https://test-english.com/', category: 'ingles' },
-        { name: 'Ejercicios Inglés Online', icon: 'fas fa-globe-europe', url: 'https://www.ejerciciosinglesonline.com/buscador', category: 'ingles' },
-        { name: 'Convertidor GitHub a RAW', icon: 'fas fa-code-branch', url: 'https://emiliocolor.com/github_a_raw', category: 'desarrollo' },
-        { name: 'Selector de imágenes de perros', icon: 'fas fa-dog', url: 'https://emiliocolor.com/selector_de_fondos', category: 'diseno' },
-        { name: 'Pixabay (imágenes libres)', icon: 'fas fa-images', url: 'https://pixabay.com/es/', category: 'diseno' },
-        { name: 'Pexels (imágenes libres)', icon: 'fas fa-images', url: 'https://www.pexels.com/es-es/', category: 'diseno' }
-    ];
-
-    const materialsData = [
-        { name: 'Material 1', icon: 'fas fa-code', url: 'NO IBA A SER TAN FÁCIL!', category: 'programacion' },
-    ];
-
-    let selectedTools = JSON.parse(localStorage.getItem('selectedTools')) || [];
-    let selectedShortcuts = JSON.parse(localStorage.getItem('selectedShortcuts')) || [];
-    
-    function renderToolsSelection() {
-        const container = document.getElementById('tools-selection-container');
-        container.innerHTML = '';
-
-        toolsData.forEach(tool => {
-            const isSelected = selectedTools.some(selected => selected.name === tool.name);
-            const item = document.createElement('div');
-            item.className = `custom-quick-access-item ${isSelected ? 'selected' : ''}`;
-            item.innerHTML = `
-                <i class="${tool.icon} me-2"></i>
-                <span>${tool.name}</span>
-            `;
-            item.addEventListener('click', () => {
-                item.classList.toggle('selected');
-            });
-            container.appendChild(item);
-        });
-    }
-
-    function renderShortcutsSelection() {
-        const container = document.getElementById('shortcuts-selection-container');
-        container.innerHTML = '';
-
-        toolsData.forEach(tool => {
-            const isSelected = selectedShortcuts.some(selected => selected.name === tool.name);
-            const item = document.createElement('div');
-            item.className = `custom-quick-access-item ${isSelected ? 'selected' : ''}`;
-            item.innerHTML = `
-                <i class="${tool.icon} me-2"></i>
-                <span>${tool.name}</span>
-            `;
-            item.addEventListener('click', () => {
-                item.classList.toggle('selected');
-            });
-            container.appendChild(item);
-        });
-    }
-
-    document.getElementById('save-tools-selection').addEventListener('click', () => {
-        const selectedItems = Array.from(document.querySelectorAll('#tools-selection-container .custom-quick-access-item.selected'));
-        selectedTools = selectedItems.map(item => {
-            const toolName = item.querySelector('span').textContent;
-            return toolsData.find(tool => tool.name === toolName);
-        });
-
-        localStorage.setItem('selectedTools', JSON.stringify(selectedTools));
-        renderQuickAccess('quick-tools-access', selectedTools);
-        
-        const notification = document.createElement('div');
-        notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-        notification.style.zIndex = '1000';
-        notification.style.borderRadius = '8px';
-        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-        notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Selección de herramientas guardada</strong>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.add('fade');
-            setTimeout(() => {
-                notification.remove();
-            }, 500);
-        }, 3000);
-    });
-
-    document.getElementById('save-shortcuts-selection').addEventListener('click', () => {
-        const selectedItems = Array.from(document.querySelectorAll('#shortcuts-selection-container .custom-quick-access-item.selected'));
-        selectedShortcuts = selectedItems.slice(0, 3).map(item => {
-            const toolName = item.querySelector('span').textContent;
-            return toolsData.find(tool => tool.name === toolName);
-        });
-
-        localStorage.setItem('selectedShortcuts', JSON.stringify(selectedShortcuts));
-        renderCustomShortcuts(selectedShortcuts);
-        
-        const notification = document.createElement('div');
-        notification.className = 'alert alert-custom position-fixed bottom-0 end-0 m-3';
-        notification.style.zIndex = '1000';
-        notification.style.borderRadius = '8px';
-        notification.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-        notification.innerHTML = '<strong><i class="fas fa-check-circle me-2"></i>Accesos directos guardados</strong>';
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.classList.add('fade');
-            setTimeout(() => {
-                notification.remove();
-            }, 500);
-        }, 3000);
-    });
-
-    function renderQuickAccess(containerId, items) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-        
-        items.forEach(item => {
-            const li = document.createElement('li');
-            li.className = 'quick-access-item';
+            <div id="chat-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-comments"></i> Chat Personal</h2>
+                    <p class="mb-4">Los mensajes se guardan localmente en tu navegador.</p>
+                    
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <h5>Chat Personal</h5>
+                            <small class="d-block">Escribe mensajes, enlaces o adjunta archivos</small>
+                        </div>
+                        
+                        <div class="chat-search-container p-3">
+                            <input type="text" class="form-control chat-search-input" id="chatSearchInput" placeholder="Buscar en mensajes...">
+                        </div>
+                        
+                        <div class="chat-messages" id="chatMessages">
+                        </div>
+                        
+                        <div class="chat-input">
+                            <div class="input-group">
+                                <textarea id="messageInput" class="form-control" placeholder="Escribe un mensaje (Shift+Enter para nueva línea)" rows="1" style="border-radius: 8px;"></textarea>
+                                <button class="btn btn-primary" type="button" id="sendMessageBtn" style="border-radius: 0 8px 8px 0;">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mt-2">
+                                <div>
+                                    <button class="btn btn-sm btn-attach action-btn" id="attachFileBtn">
+                                        <i class="fas fa-paperclip"></i> Archivo
+                                    </button>
+                                    <input type="file" id="fileInput" style="display: none;">
+                                </div>
+                                <button class="btn btn-sm btn-clear action-btn" id="clearChatBtn">
+                                    <i class="fas fa-trash"></i> Limpiar chat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            const link = document.createElement('a');
-            link.href = item.url;
-            link.target = '_blank';
-            link.className = 'd-flex align-items-center text-decoration-none';
-            link.innerHTML = `
-                <i class="${item.icon} quick-access-icon"></i>
-                <span>${item.name}</span>
-            `;
+            <div id="calendario-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Calendario</h2>
+                    <p>Organiza tus actividades y fechas importantes.</p>
+                    
+                    <div class="calendar-container">
+                        <div class="calendar-header">
+                            <h4 class="calendar-title" id="calendarMonth">Mes Actual</h4>
+                            <div class="calendar-nav">
+                                <button class="btn btn-sm btn-outline" id="prevMonth">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline" id="nextMonth">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarDaysHeader">
+                            <div class="calendar-day-header">Dom</div>
+                            <div class="calendar-day-header">Lun</div>
+                            <div class="calendar-day-header">Mar</div>
+                            <div class="calendar-day-header">Mié</div>
+                            <div class="calendar-day-header">Jue</div>
+                            <div class="calendar-day-header">Vie</div>
+                            <div class="calendar-day-header">Sáb</div>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendarDays">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4 class="mb-3">Notas para <span id="selectedDateTitle">Hoy</span></h4>
+                        <textarea class="form-control notes-textarea" id="calendarNotes" placeholder="Escribe notas para este día..."></textarea>
+                        <button class="btn btn-primary mt-2" id="saveCalendarNotesBtn">
+                            <i class="fas fa-save me-2"></i>Guardar Notas
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Nueva sección para organizar cursos -->
+            <div id="organizar-cursos-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-tasks"></i> Organizar Mis Cursos</h2>
+                    <p>Administra y organiza tus cursos guardados. Puedes agregar nuevos cursos, editarlos o eliminarlos.</p>
+                    
+                    <button class="btn btn-primary mb-4" id="openOrganizeCoursesModal">
+                        <i class="fas fa-plus me-2"></i> Agregar Nuevo Curso
+                    </button>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Correo Asociado</h5>
+                            <p class="card-text" id="savedCourseEmail">No se ha guardado ningún correo aún.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <h4>Mis Cursos</h4>
+                        <div class="table-responsive">
+                            <table class="table" id="coursesSummaryTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Sección</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="coursesSummaryList">
+                                    <!-- Los cursos se mostrarán aquí -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
             
-            li.appendChild(link);
-            container.appendChild(li);
-        });
-    }
+            <!-- Sección Contacto -->
+            <div id="contacto-section" class="hidden-section">
+                <div class="rounded-container">
+                    <h2 class="section-title"><i class="fas fa-envelope"></i> Contacto</h2>
+                    <p>¿Tienes alguna pregunta? No dudes en ponerte en contacto con nosotros.</p>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card tool-card p-4 h-100">
+                                <div class="contact-method mb-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-envelope text-primary me-3" style="font-size: 1.5rem;"></i>
+                                        <div>
+                                            <h5>Correo Electrónico</h5>
+                                            <a href="mailto:emiliocolormexico@gmail.com">emiliocolormexico@gmail.com</a>
+                                        </div>
+                                    </div>
+                                    <a href="mailto:emiliocolormexico@gmail.com" target="_blank" class="btn btn-primary d-block mb-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Enviar correo (celular)
+                                    </a>
+                                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=emiliocolor@gmail.com" target="_blank" class="btn btn-primary d-block mb-3">
+                                        <i class="fas fa-paper-plane me-2"></i> Enviar correo (computadora)
+                                    </a>
+                                </div>
+
+                                <div class="contact-method mb-4">
+                                    <div class="d-flex align-items-start mb-3">
+                                        <i class="fas fa-phone-alt text-primary me-3" style="font-size: 1.5rem;"></i>
+                                        <div>
+                                            <h5>Teléfono</h5>
+                                            <a href="tel:+525625377747">+52 56 2537 7747</a>
+                                            <p class="small text-muted mb-0">Horario: Lunes a Viernes, 10am - 6pm</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-start mb-3">
+                                        <i class="fab fa-whatsapp text-primary me-3" style="font-size: 1.5rem;"></i>
+                                        <div>
+                                            <h5>WhatsApp</h5>
+                                            <a href="https://wa.me/525625377747" target="_blank">+52 56 2537 7747</a>
+                                            <p class="small text-muted mb-0">Horario: Lunes a Viernes, 10am - 6pm</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="contact-method">
+                                    <div class="mb-3">
+                                        <h5 class="d-flex align-items-center">
+                                            <i class="fas fa-map-marker-alt text-primary me-2" style="font-size: 1.2rem;"></i>
+                                            Ubicación
+                                        </h5>
+                                        <p>📍 México, Ciudad de México</p>
+                                        <p class="small text-muted mb-0">Atendemos a toda la República (con costo extra de envío).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card tool-card p-4 h-100">
+                                <h5 class="mb-4">Información Adicional</h5>
+                                <div class="mb-4">
+                                    <a href="https://emiliocolor.github.io/mx/legalidad_y_garantia.html" target="_blank" class="d-block mb-2 p-2 bg-light rounded">
+                                        <i class="fas fa-file-contract text-primary me-2"></i> Legalidad y Garantía
+                                    </a>
+                                    <a href="https://emiliocolor.github.io/mx/soporte_tecnico.html" target="_blank" class="d-block p-2 bg-light rounded">
+                                        <i class="fas fa-file-contract text-primary me-2"></i> Soporte Técnico
+                                    </a>
+                                </div>
+
+                                <h5 class="mb-3">Redes Sociales</h5>
+                                <p>Conectando contigo desde 2023.</p>
+                                <div class="d-flex gap-3 mb-4">
+                                    <a href="#" class="social-circle"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="https://www.instagram.com/emiliocolormx/" class="social-circle"><i class="fab fa-instagram"></i></a>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5 class="mb-2">Sobre Nosotros</h5>
+                                    <p class="small">
+                                        Este Entorno de Desarrollo Integral <strong>ClassCloud™ Pro</strong> es una marca comercial propiedad de <strong>EmilioColor®</strong>, desarrollada para el aprendizaje y desarrollo profesional. Está enfocada en brindar herramientas educativas de alta calidad.
+                                    </p>
+                                    <a href="https://emiliocolor.github.io/mx/#inicio" target="_blank" class="btn btn-primary d-block mb-3">
+    <i class="fas fa-globe me-2"></i> Abrir página web
+                                    </a>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/favicon.png" alt="EmilioColor Logo" class="footer-logo-favicon mb-3">
+                                    <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/favicon_lyg.png" alt="Legalidad y Garantía" class="footer-logo-favicon mb-3">
+                                    <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/soporte%20tecnico.jpg" alt="EmilioColor Soporte" class="footer-logo-favicon mb-3">
+                                    <p class="small">Este sitio es propiedad de EmilioColor® y fue desarrollado para ofrecer productos y servicios de alta calidad.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="settings-btn" id="settingsBtn">
+        <i class="fas fa-cog"></i>
+    </div>
     
-    function renderCustomShortcuts(items) {
-        const container = document.getElementById('custom-shortcuts');
-        container.innerHTML = '';
-        
-        items.forEach((item, index) => {
-            const link = document.createElement('a');
-            link.href = item.url;
-            link.target = '_blank';
-            link.className = 'd-block text-white-50 mb-2';
-            if (index === items.length - 1) {
-                link.className = 'd-block text-white-50';
-            }
-            link.innerHTML = `<i class="${item.icon} me-2"></i> ${item.name}`;
-            container.appendChild(link);
-        });
-    }
-    
-    renderToolsSelection();
-    renderShortcutsSelection();
-    renderQuickAccess('quick-tools-access', selectedTools);
-    renderCustomShortcuts(selectedShortcuts);
+    <div class="settings-modal" id="settingsModal">
+        <div class="settings-content">
+            <h3 class="mb-4"><i class="fas fa-cog me-2"></i> Configuración</h3>
+            
+            <div class="settings-tabs">
+                <div class="settings-tab active" data-tab="tools">Acceso Rápido a Herramientas</div>
+                <div class="settings-tab" data-tab="shortcuts">Accesos Directos</div>
+            </div>
 
-    // Cerrar sidebar al hacer clic fuera en móviles
-    document.addEventListener('click', function(e) {
-        const sidebar = document.getElementById('sidebar');
-        const toggleBtn = document.getElementById('toggleSidebar');
-        
-        if (window.innerWidth < 992 && 
-            !sidebar.contains(e.target) && 
-            e.target !== toggleBtn && 
-            !toggleBtn.contains(e.target)) {
-            sidebar.classList.remove('mobile-active');
-        }
-    });
-});
+            <div class="settings-tab-content active" id="tools-tab">
+                <h5 class="mb-3">Personaliza tus accesos rápidos a herramientas</h5>
+                <p>Selecciona las herramientas que deseas tener en tu acceso rápido:</p>
+                
+                <div class="custom-quick-access" id="tools-selection-container">
+                </div>
+                
+                <button class="btn btn-primary save-selection-btn" id="save-tools-selection">
+                    <i class="fas fa-save me-2"></i> Guardar Selección
+                </button>
+            </div>
+            
+            <div class="settings-tab-content" id="shortcuts-tab">
+                <h5 class="mb-3">Personaliza tus accesos directos en el sidebar</h5>
+                <p>Selecciona hasta 3 accesos directos para mostrar en el panel lateral:</p>
+                
+                <div class="custom-quick-access" id="shortcuts-selection-container">
+                </div>
+                
+                <button class="btn btn-primary save-selection-btn" id="save-shortcuts-selection">
+                    <i class="fas fa-save me-2"></i> Guardar Selección
+                </button>
+            </div>
+            
+            <div class="mt-4 pt-3 border-top">
+                <button class="btn btn-secondary" id="closeSettingsBtn">
+                    <i class="fas fa-times me-2"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
 
-function navigateToSection(sectionName) {
-    const sectionLink = document.querySelector(`.sidebar-nav-link[data-section="${sectionName}"]`);
-    if (sectionLink) {
-        sectionLink.click();
-    }
-}
-
-document.getElementById('exploreSectionBtn').addEventListener('click', function() {
-    const targetSection = this.getAttribute('data-target-section');
-    navigateToSection(targetSection);
-});
+    <footer class="footer">
+        <div class="container">
+            <img src="https://github.com/emiliocolor/mx/raw/2683006dbbc92ea02006bdc335a34042a0686bc5/img/emiliocolor_1.png" alt="EmilioColor Logo" class="footer-logo">
+            <p>© 2025 EmilioColor® | <strong>ClassCloud™ Pro.</strong> Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
