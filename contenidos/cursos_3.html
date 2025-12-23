@@ -1,0 +1,2609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EmilioColor® - Conversor de Calibrador Vernier en Pulgadas">
+    <meta name="keywords" content="conversor, calibrador vernier, pulgadas, centímetros, milímetros, cursos">
+    <meta name="author" content="EmilioColor®">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="EmilioColor®">
+    <meta property="og:title" content="Conversor de Calibrador Vernier en Pulgadas">
+    <meta property="og:description" content="Herramienta para convertir medidas de calibrador vernier en pulgadas a otras unidades">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://emiliocolor.com">
+    <meta property="og:image" content="https://emiliocolor.com/assets/img/og-image.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Conversor de Calibrador Vernier en Pulgadas">
+    <meta name="twitter:description" content="Herramienta para convertir medidas de calibrador vernier en pulgadas a otras unidades">
+    <meta name="twitter:image" content="https://emiliocolor.com/assets/img/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/emiliocolor/clientes/7964bf0b3468b2c6dda633ed93dfd34807f32795/img-logos/favicon_herramientas.png" type="image/png">
+
+    <title>Conversor de Calibrador Vernier en Pulgadas - EmilioColor®</title>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://emiliocolor.com">
+
+    <style>
+        :root {
+            --primary-blue: #284596;
+            --primary-blue-light: #1d4ed8;
+            --primary-blue-dark: #0d1d50;
+            --primary-gray: #4d4d4d;
+            --primary-gray-light: #a3a3a3;
+            --primary-gray-lighter: #7c7c7c;
+            --primary-gray-dark: #464646;
+            --primary-gray-darker: #303030;
+            --secondary-gray: #808080;
+            --accent-gray: #696969;
+            --light-gray: #f8fafc;
+            --medium-gray: #e2e8f0;
+            --dark-gray: #1e293b;
+            --text-dark: #2c333d;
+            --text-light: #f1f5f9;
+            --header-bg: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 50%, var(--primary-blue-light) 100%);
+            --header-hover: rgba(255, 255, 255, 0.1);
+            --button-gradient: linear-gradient(135deg, var(--primary-gray) 0%, var(--primary-gray-light) 100%);
+            --button-hover-gradient: linear-gradient(135deg, var(--primary-gray-dark) 0%, var(--primary-gray) 100%);
+            --card-gradient: linear-gradient(to bottom right, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 240, 0.95) 100%);
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --danger-hover: #dc2626;
+            --footer-bg: linear-gradient(135deg, #010101 0%, #5c5c5c 50%, #000000 100%);
+            --whatsapp-gradient: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            --whatsapp-hover: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+            padding: 0;
+            margin: 0;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            padding-top: 80px;
+            scroll-behavior: smooth;
+        }
+
+        /* HEADER STYLES */
+        .main-header {
+            background: var(--header-bg);
+            color: white;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-logo img {
+            height: 30px;
+        }
+
+        .header-logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .header-logo-subtext {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 5px;
+        }
+
+        .header-nav-link {
+            padding: 10px 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-nav-link:hover,
+        .header-nav-link.active {
+            text-decoration: underline;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: calc(100vh - 400px);
+        }
+
+        /* FOOTER STYLES */
+        .main-footer {
+            background: var(--footer-bg);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            margin-bottom: 15px;
+        }
+
+        .footer-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .footer-nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-nav-link:hover {
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .footer-contact h4,
+        .footer-social h4 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-contact p {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* RESPONSIVE STYLES */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .header-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-logo {
+                align-items: center;
+            }
+            
+            .footer-social-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px;
+            }
+            
+            .header-nav-link {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .header-nav-link span {
+                display: none;
+            }
+            
+            .header-nav-link i {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Conversor de Calibrador Vernier Styles */
+        .calculator-container {
+            background: white;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border-radius: 0;
+        }
+
+        .calculator {
+            background-color: white;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            color: var(--text-dark);
+            border-radius: 0;
+        }
+        
+        .calculator h2 {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        
+        h3 {
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        
+        .config-selector {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .conversion-type {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .conversion-type label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .calculator label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+        
+        .calculator input, .calculator select, .calculator textarea {
+            padding: 12px;
+            width: 100%;
+            border: 1px solid var(--medium-gray);
+            border-radius: 0;
+            background-color: white;
+            color: var(--text-dark);
+            font-size: 16px;
+            transition: border 0.3s;
+            box-sizing: border-box;
+        }
+        
+        .calculator input:focus, .calculator select:focus, .calculator textarea:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+        }
+        
+        .calculator button {
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+        
+        .calculator button:hover {
+            background: var(--button-hover-gradient);
+            transform: translateY(-2px);
+        }
+        
+        .calculator button:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-radius: 0;
+            display: none;
+            border-left: 4px solid var(--primary-blue);
+        }
+        
+        .error {
+            color: white;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: var(--danger-color);
+            border-radius: 0;
+            display: none;
+            font-size: 15px;
+        }
+        
+        .conversion-value {
+            font-size: 22px;
+            color: var(--primary-blue);
+            font-weight: bold;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        
+        .calculator hr {
+            border: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--primary-blue), transparent);
+            margin: 18px 0;
+        }
+        
+        .conversion-item {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .conversion-item:last-child {
+            border-bottom: none;
+        }
+        
+        .copy-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 0;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary-blue-dark);
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .home-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+        }
+
+        .home-btn:hover {
+            background: var(--primary-blue-dark);
+            transform: translateY(-1px);
+            color: white;
+        }
+
+        /* Botón de convertir más pequeño en computadora */
+        @media (min-width: 768px) {
+            .calculator button {
+                width: 50%;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+        }
+
+        /* Estilos para el conversor de calibrador vernier */
+        .unit-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .unit-input input {
+            flex: 1;
+        }
+        
+        .unit-selector {
+            width: 100px;
+        }
+        
+        .conversion-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 0;
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .conversion-info h4 {
+            color: var(--success-color);
+            margin-bottom: 10px;
+        }
+        
+        .formula {
+            font-family: 'Courier New', monospace;
+            background-color: var(--light-gray);
+            padding: 8px 12px;
+            border-radius: 0;
+            display: inline-block;
+            color: var(--text-dark);
+        }
+
+        .measurement-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .measurement-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .measurement-item label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .measurement-item input {
+            text-align: center;
+        }
+
+        .case-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(40, 69, 150, 0.1);
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .case-info h5 {
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .result-unit {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 0;
+            border-left: 3px solid var(--success-color);
+        }
+
+        .result-unit h5 {
+            color: var(--success-color);
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .result-unit p {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Estilos para la sección de cursos */
+        .courses-section {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 10px;
+        }
+
+        .search-container {
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 0;
+        }
+
+        .search-box button {
+            background: var(--button-gradient);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0;
+            cursor: pointer;
+        }
+
+        .course-count {
+            color: var(--primary-gray);
+            font-size: 0.9rem;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .course-card {
+            padding: 20px;
+            background-color: var(--light-gray);
+            border-left: 4px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-title {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .course-description {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: var(--primary-gray);
+            font-style: italic;
+            display: none;
+        }
+
+        /* Nuevos estilos para las imágenes de los cursos */
+        .course-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            flex-shrink: 0;
+        }
+
+        .course-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .measurement-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .course-image {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .course-header {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header class="main-header">
+    <div class="header-container">
+        <a href="https://emiliocolor.com" target="_blank" class="header-logo">
+            <img src="https://emiliocolor.com/img-logos/logo_transparente_alargado.png" alt="EmilioColor Logo">
+        </a>
+        
+        <nav class="header-nav">
+            <a href="https://emiliocolor.com/" class="header-nav-link active">
+                <i class="fas fa-home"></i>
+                <span>Página principal</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+    <!-- Sección de Cursos -->
+    <div class="courses-section">
+        <h1 class="section-title">3/3 Colección Completa - Cursos Disponibles</h1>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="course-search" placeholder="Buscar curso por nombre...">
+                <button id="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="course-count" id="course-count">Mostrando <span id="visible-count">194</span> de 194 cursos</div>
+        </div>
+        
+        <div class="courses-grid" id="courses-container">
+            <!-- Curso 1 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/42.png" alt="Diseno Grafico" class="course-image">
+                    <h3 class="course-title">Diseno Grafico</h3>
+                </div>
+                <p class="course-description">Aprende los fundamentos del diseno grafico y herramientas profesionales. Categoría: Diseño, contenido: Fundamentos de diseño.</p>
+            </div>
+            
+            <!-- Curso 2 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/43.png" alt="Office" class="course-image">
+                    <h3 class="course-title">Office</h3>
+                </div>
+                <p class="course-description">Domina las herramientas de Microsoft Office para productividad. Categoría: Programación, contenido: Microsoft Office.</p>
+            </div>
+            
+            <!-- Curso 3 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/44.png" alt="Ingles" class="course-image">
+                    <h3 class="course-title">Ingles</h3>
+                </div>
+                <p class="course-description">Curso completo de ingles desde nivel basico hasta avanzado. Categoría: Idiomas, contenido: Inglés completo.</p>
+            </div>
+            
+            <!-- Curso 4 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/45.png" alt="Curso Excel Completo" class="course-image">
+                    <h3 class="course-title">Curso Excel Completo</h3>
+                </div>
+                <p class="course-description">Aprende Excel desde cero hasta nivel avanzado. Categoría: Programación, contenido: Excel avanzado.</p>
+            </div>
+            
+            <!-- Curso 5 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/46.png" alt="Aula Virtual" class="course-image">
+                    <h3 class="course-title">Aula Virtual</h3>
+                </div>
+                <p class="course-description">Recursos para crear y gestionar aulas virtuales educativas. Categoría: Programación, contenido: Educación virtual.</p>
+            </div>
+            
+            <!-- Curso 6 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/47.png" alt="Hacking Etico" class="course-image">
+                    <h3 class="course-title">Hacking Etico</h3>
+                </div>
+                <p class="course-description">Aprende tecnicas de hacking etico y seguridad informatica. Categoría: Programación, contenido: Seguridad informática.</p>
+            </div>
+            
+            <!-- Curso 7 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/48.png" alt="Marketing Digital" class="course-image">
+                    <h3 class="course-title">Marketing Digital</h3>
+                </div>
+                <p class="course-description">Estrategias de marketing digital para redes sociales y web. Categoría: Negocios, contenido: Marketing online.</p>
+            </div>
+            
+            <!-- Curso 8 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/49.png" alt="Gastronomia" class="course-image">
+                    <h3 class="course-title">Gastronomia</h3>
+                </div>
+                <p class="course-description">Curso completo de cocina y tecnicas gastronomicas. Categoría: Desarrollo Personal, contenido: Cocina profesional.</p>
+            </div>
+            
+            <!-- Curso 9 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/50.png" alt="Super Memoria" class="course-image">
+                    <h3 class="course-title">Super Memoria</h3>
+                </div>
+                <p class="course-description">Tecnicas para mejorar la memoria y el aprendizaje acelerado. Categoría: Desarrollo Personal, contenido: Técnicas de memorización.</p>
+            </div>
+            
+            <!-- Curso 10 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/51.png" alt="Produccion Musical" class="course-image">
+                    <h3 class="course-title">Produccion Musical</h3>
+                </div>
+                <p class="course-description">Aprende a producir musica con herramientas digitales. Categoría: Música, contenido: Producción audio.</p>
+            </div>
+            
+            <!-- Curso 11 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/52.png" alt="Ingenieria" class="course-image">
+                    <h3 class="course-title">Ingenieria</h3>
+                </div>
+                <p class="course-description">Recursos y cursos varios sobre ingenieria. Categoría: Ingeniería, contenido: Varios temas.</p>
+            </div>
+            
+            <!-- Curso 12 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/53.png" alt="Cursos De Hacking Y Programacion" class="course-image">
+                    <h3 class="course-title">Cursos De Hacking Y Programacion</h3>
+                </div>
+                <p class="course-description">Coleccion de cursos sobre hacking y programacion. Categoría: Programación, contenido: Varios temas.</p>
+            </div>
+            
+            <!-- Curso 13 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/54.png" alt="Autocad Desde Cero - Proyectos" class="course-image">
+                    <h3 class="course-title">Autocad Desde Cero - Proyectos</h3>
+                </div>
+                <p class="course-description">Aprende AutoCAD desde cero con proyectos practicos. Categoría: Diseño, contenido: Diseño CAD.</p>
+            </div>
+            
+            <!-- Curso 14 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/55.png" alt="Arquitectura" class="course-image">
+                    <h3 class="course-title">Arquitectura</h3>
+                </div>
+                <p class="course-description">Curso completo sobre fundamentos de arquitectura. Categoría: Diseño, contenido: Arquitectura.</p>
+            </div>
+            
+            <!-- Curso 15 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/56.png" alt="Consola Movil" class="course-image">
+                    <h3 class="course-title">Consola Movil</h3>
+                </div>
+                <p class="course-description">Curso sobre desarrollo de aplicaciones para consolas moviles. Categoría: Programación, contenido: Desarrollo móvil.</p>
+            </div>
+            
+            <!-- Curso 16 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/57.png" alt="Desarrollo Web" class="course-image">
+                    <h3 class="course-title">Desarrollo Web</h3>
+                </div>
+                <p class="course-description">Aprende desarrollo web frontend y backend. Categoría: Programación, contenido: Web development.</p>
+            </div>
+            
+            <!-- Curso 17 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/58.png" alt="Psicologia" class="course-image">
+                    <h3 class="course-title">Psicologia</h3>
+                </div>
+                <p class="course-description">Curso introductorio a la psicologia. Categoría: Desarrollo Personal, contenido: Psicología básica.</p>
+            </div>
+            
+            <!-- Curso 18 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/59.png" alt="Canva De 0 A Pro" class="course-image">
+                    <h3 class="course-title">Canva De 0 A Pro</h3>
+                </div>
+                <p class="course-description">Domina Canva para crear disenos profesionales. Categoría: Diseño, contenido: Diseño gráfico.</p>
+            </div>
+            
+            <!-- Curso 19 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/60.png" alt="Armado De Pc" class="course-image">
+                    <h3 class="course-title">Armado De Pc</h3>
+                </div>
+                <p class="course-description">Aprende a armar y reparar computadoras. Categoría: Electrónica, contenido: Hardware.</p>
+            </div>
+            
+            <!-- Curso 20 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/61.png" alt="Guitarra Acustica" class="course-image">
+                    <h3 class="course-title">Guitarra Acustica</h3>
+                </div>
+                <p class="course-description">Curso completo para aprender a tocar guitarra acustica. Categoría: Música, contenido: Instrumentos musicales.</p>
+            </div>
+            
+            <!-- Curso 21 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/62.png" alt="Pre Universitario" class="course-image">
+                    <h3 class="course-title">Pre Universitario</h3>
+                </div>
+                <p class="course-description">Preparacion para examenes universitarios. Categoría: Desarrollo Personal, contenido: Educación.</p>
+            </div>
+            
+            <!-- Curso 22 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/63.png" alt="Fotografia" class="course-image">
+                    <h3 class="course-title">Fotografia</h3>
+                </div>
+                <p class="course-description">Curso completo de fotografia digital. Categoría: Diseño, contenido: Fotografía.</p>
+            </div>
+            
+            <!-- Curso 23 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/64.png" alt="Curso De Dibujo Completo" class="course-image">
+                    <h3 class="course-title">Curso De Dibujo Completo</h3>
+                </div>
+                <p class="course-description">Aprende tecnicas de dibujo desde cero. Categoría: Diseño, contenido: Dibujo artístico.</p>
+            </div>
+            
+            <!-- Curso 24 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/65.png" alt="Lectura Rapida" class="course-image">
+                    <h3 class="course-title">Lectura Rapida</h3>
+                </div>
+                <p class="course-description">Tecnicas para aumentar la velocidad de lectura. Categoría: Desarrollo Personal, contenido: Técnicas de estudio.</p>
+            </div>
+            
+            <!-- Curso 25 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/66.png" alt="Curso De Argis" class="course-image">
+                    <h3 class="course-title">Curso De Argis</h3>
+                </div>
+                <p class="course-description">Aprende a usar Argis para sistemas de informacion geografica. Categoría: Diseño, contenido: SIG.</p>
+            </div>
+            
+            <!-- Curso 26 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/67.png" alt="Dibujo A Lapiz De Principiante A Experto" class="course-image">
+                    <h3 class="course-title">Dibujo A Lapiz De Principiante A Experto</h3>
+                </div>
+                <p class="course-description">Domina el dibujo a lapiz con tecnicas profesionales. Categoría: Diseño, contenido: Dibujo artístico.</p>
+            </div>
+            
+            <!-- Curso 27 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/68.png" alt="Dibujo E Ilustracion" class="course-image">
+                    <h3 class="course-title">Dibujo E Ilustracion</h3>
+                </div>
+                <p class="course-description">Curso completo de dibujo e ilustracion digital. Categoría: Diseño, contenido: Ilustración digital.</p>
+            </div>
+            
+            <!-- Curso 28 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/69.png" alt="Como Crear Tu Iman De Prospecto" class="course-image">
+                    <h3 class="course-title">Como Crear Tu Iman De Prospecto</h3>
+                </div>
+                <p class="course-description">Tecnicas de marketing y atraccion de clientes. Categoría: Negocios, contenido: Marketing.</p>
+            </div>
+            
+            <!-- Curso 29 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/70.png" alt="Inteligencia Artificial" class="course-image">
+                    <h3 class="course-title">Inteligencia Artificial</h3>
+                </div>
+                <p class="course-description">Introduccion a la inteligencia artificial y machine learning. Categoría: Programación, contenido: IA y ML.</p>
+            </div>
+            
+            <!-- Curso 30 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/71.png" alt="Curso De Adiestramiento Canino" class="course-image">
+                    <h3 class="course-title">Curso De Adiestramiento Canino</h3>
+                </div>
+                <p class="course-description">Aprende tecnicas profesionales para adiestrar perros. Categoría: Desarrollo Personal, contenido: Adiestramiento.</p>
+            </div>
+            
+            <!-- Curso 31 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/72.png" alt="Programacion En Java" class="course-image">
+                    <h3 class="course-title">Programacion En Java</h3>
+                </div>
+                <p class="course-description">Curso completo de programacion en Java. Categoría: Programación, contenido: Java.</p>
+            </div>
+            
+            <!-- Curso 32 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/73.png" alt="Exploring Jazz - Piano Vol I Y II" class="course-image">
+                    <h3 class="course-title">Exploring Jazz - Piano Vol I Y II</h3>
+                </div>
+                <p class="course-description">Curso de piano jazz para principiantes y avanzados. Categoría: Música, contenido: Piano jazz.</p>
+            </div>
+            
+            <!-- Curso 33 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/74.png" alt="Cursos De Corte Y Confeccion 1" class="course-image">
+                    <h3 class="course-title">Cursos De Corte Y Confeccion 1</h3>
+                </div>
+                <p class="course-description">Aprende tecnicas de costura y confeccion de ropa. Categoría: Desarrollo Personal, contenido: Costura.</p>
+            </div>
+            
+            <!-- Curso 34 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/75.png" alt="Curso De Barista" class="course-image">
+                    <h3 class="course-title">Curso De Barista</h3>
+                </div>
+                <p class="course-description">Aprende el arte de preparar cafe como un profesional. Categoría: Desarrollo Personal, contenido: Barismo.</p>
+            </div>
+            
+            <!-- Curso 35 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/76.png" alt="Reparacion De Aires Acondicionados" class="course-image">
+                    <h3 class="course-title">Reparacion De Aires Acondicionados</h3>
+                </div>
+                <p class="course-description">Aprende a reparar y mantener sistemas de aire acondicionado. Categoría: Electrónica, contenido: HVAC.</p>
+            </div>
+            
+            <!-- Curso 36 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/77.png" alt="Masterclass Oratoria" class="course-image">
+                    <h3 class="course-title">Masterclass Oratoria</h3>
+                </div>
+                <p class="course-description">Mejora tus habilidades de hablar en publico. Categoría: Desarrollo Personal, contenido: Comunicación.</p>
+            </div>
+            
+            <!-- Curso 37 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/78.png" alt="Cursos De Hacking Y Programacion 2" class="course-image">
+                    <h3 class="course-title">Cursos De Hacking Y Programacion 2</h3>
+                </div>
+                <p class="course-description">Mas cursos avanzados sobre hacking y programacion. Categoría: Programación, contenido: Hacking.</p>
+            </div>
+            
+            <!-- Curso 38 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/79.png" alt="Curso De Hacking De Frecuencias - S4Vitar" class="course-image">
+                    <h3 class="course-title">Curso De Hacking De Frecuencias - S4Vitar</h3>
+                </div>
+                <p class="course-description">Curso especializado en hacking de frecuencias. Categoría: Programación, contenido: Seguridad.</p>
+            </div>
+            
+            <!-- Curso 39 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/80.png" alt="Training Hacking Offensive" class="course-image">
+                    <h3 class="course-title">Training Hacking Offensive</h3>
+                </div>
+                <p class="course-description">Entrenamiento en hacking ofensivo y seguridad. Categoría: Programación, contenido: Hacking ético.</p>
+            </div>
+            
+            <!-- Curso 40 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/81.png" alt="Maestro De La Seduccion" class="course-image">
+                    <h3 class="course-title">Maestro De La Seduccion</h3>
+                </div>
+                <p class="course-description">Tecnicas de seduccion y relaciones interpersonales. Categoría: Desarrollo Personal, contenido: Relaciones.</p>
+            </div>
+            
+            <!-- Curso 41 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/82.png" alt="Lenguaje De Programacion" class="course-image">
+                    <h3 class="course-title">Lenguaje De Programacion</h3>
+                </div>
+                <p class="course-description">Curso sobre diversos lenguajes de programacion. Categoría: Programación, contenido: Varios lenguajes.</p>
+            </div>
+            
+            <!-- Curso 42 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/83.png" alt="Curso De Computacion" class="course-image">
+                    <h3 class="course-title">Curso De Computacion</h3>
+                </div>
+                <p class="course-description">Fundamentos de computacion para principiantes. Categoría: Programación, contenido: Básicos.</p>
+            </div>
+            
+            <!-- Curso 43 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/84.png" alt="Estetica Canina" class="course-image">
+                    <h3 class="course-title">Estetica Canina</h3>
+                </div>
+                <p class="course-description">Aprende tecnicas de peluqueria y estetica para perros. Categoría: Desarrollo Personal, contenido: Peluquería canina.</p>
+            </div>
+            
+            <!-- Curso 44 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/85.png" alt="Escuela Masterchef" class="course-image">
+                    <h3 class="course-title">Escuela Masterchef</h3>
+                </div>
+                <p class="course-description">Curso de cocina al estilo Masterchef. Categoría: Desarrollo Personal, contenido: Cocina.</p>
+            </div>
+            
+            <!-- Curso 45 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/86.png" alt="Como Crear Cursos (John Dani)" class="course-image">
+                    <h3 class="course-title">Como Crear Cursos (John Dani)</h3>
+                </div>
+                <p class="course-description">Aprende a crear y vender cursos online. Categoría: Negocios, contenido: Creación de cursos.</p>
+            </div>
+            
+            <!-- Curso 46 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/87.png" alt="Daygame Mastery (Seduccion)" class="course-image">
+                    <h3 class="course-title">Daygame Mastery (Seduccion)</h3>
+                </div>
+                <p class="course-description">Tecnicas avanzadas de seduccion durante el dia. Categoría: Desarrollo Personal, contenido: Relaciones.</p>
+            </div>
+            
+            <!-- Curso 47 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/88.png" alt="Reparacion De Impresoras" class="course-image">
+                    <h3 class="course-title">Reparacion De Impresoras</h3>
+                </div>
+                <p class="course-description">Aprende a reparar impresoras de diferentes marcas. Categoría: Electrónica, contenido: Reparación.</p>
+            </div>
+            
+            <!-- Curso 48 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/89.png" alt="Curso De Programacion" class="course-image">
+                    <h3 class="course-title">Curso De Programacion</h3>
+                </div>
+                <p class="course-description">Curso general de programacion para principiantes. Categoría: Programación, contenido: Fundamentos.</p>
+            </div>
+            
+            <!-- Curso 49 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/90.png" alt="Curso De Administracion De Restaurantes" class="course-image">
+                    <h3 class="course-title">Curso De Administracion De Restaurantes</h3>
+                </div>
+                <p class="course-description">Aprende a gestionar y administrar un restaurante. Categoría: Negocios, contenido: Gestión.</p>
+            </div>
+            
+            <!-- Curso 50 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/91.png" alt="Hablar Para Vender Alvaro Mendoza" class="course-image">
+                    <h3 class="course-title">Hablar Para Vender Alvaro Mendoza</h3>
+                </div>
+                <p class="course-description">Tecnicas de venta y persuasion verbal. Categoría: Negocios, contenido: Ventas.</p>
+            </div>
+            
+            <!-- Curso 51 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/92.png" alt="Master Ventas Luis Eduardo Varon" class="course-image">
+                    <h3 class="course-title">Master Ventas Luis Eduardo Varon</h3>
+                </div>
+                <p class="course-description">Curso avanzado de tecnicas de ventas. Categoría: Negocios, contenido: Técnicas de venta.</p>
+            </div>
+            
+            <!-- Curso 52 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/93.png" alt="Mecanica Automotriz Para Principiantes" class="course-image">
+                    <h3 class="course-title">Mecanica Automotriz Para Principiantes</h3>
+                </div>
+                <p class="course-description">Aprende los fundamentos de mecanica automotriz. Categoría: Ingeniería, contenido: Automotriz.</p>
+            </div>
+            
+            <!-- Curso 53 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/94.png" alt="Coleccion Robert Kiyosaki" class="course-image">
+                    <h3 class="course-title">Coleccion Robert Kiyosaki</h3>
+                </div>
+                <p class="course-description">Libros y cursos sobre finanzas personales. Categoría: Negocios, contenido: Finanzas.</p>
+            </div>
+            
+            <!-- Curso 54 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/95.png" alt="Como Entender Contabilidad Sin Ser Contador" class="course-image">
+                    <h3 class="course-title">Como Entender Contabilidad Sin Ser Contador</h3>
+                </div>
+                <p class="course-description">Fundamentos de contabilidad para no especialistas. Categoría: Negocios, contenido: Contabilidad.</p>
+            </div>
+            
+            <!-- Curso 55 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/96.png" alt="Curso De Ingles Vaughan Basico" class="course-image">
+                    <h3 class="course-title">Curso De Ingles Vaughan Basico</h3>
+                </div>
+                <p class="course-description">Curso de ingles nivel basico con metodo Vaughan. Categoría: Idiomas, contenido: Inglés básico.</p>
+            </div>
+            
+            <!-- Curso 56 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/97.png" alt="Curso De Ingles Vaughan Intermedio" class="course-image">
+                    <h3 class="course-title">Curso De Ingles Vaughan Intermedio</h3>
+                </div>
+                <p class="course-description">Curso de ingles nivel intermedio con metodo Vaughan. Categoría: Idiomas, contenido: Inglés intermedio.</p>
+            </div>
+            
+            <!-- Curso 57 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/98.png" alt="Curso De Ingles Vaughan Avanzado" class="course-image">
+                    <h3 class="course-title">Curso De Ingles Vaughan Avanzado</h3>
+                </div>
+                <p class="course-description">Curso de ingles nivel avanzado con metodo Vaughan. Categoría: Idiomas, contenido: Inglés avanzado.</p>
+            </div>
+            
+            <!-- Curso 58 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/99.png" alt="Curso Manejo De La Frustracion" class="course-image">
+                    <h3 class="course-title">Curso Manejo De La Frustracion</h3>
+                </div>
+                <p class="course-description">Tecnicas para manejar la frustracion y el estres. Categoría: Desarrollo Personal, contenido: Bienestar emocional.</p>
+            </div>
+            
+            <!-- Curso 59 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/100.png" alt="Mi Primera Pagina Web" class="course-image">
+                    <h3 class="course-title">Mi Primera Pagina Web</h3>
+                </div>
+                <p class="course-description">Aprende a crear tu primera pagina web desde cero. Categoría: Programación, contenido: Desarrollo web.</p>
+            </div>
+            
+            <!-- Curso 60 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/101.png" alt="Reparacion Y Mantenimiento De Herramientas Electricas" class="course-image">
+                    <h3 class="course-title">Reparacion Y Mantenimiento De Herramientas Electricas</h3>
+                </div>
+                <p class="course-description">Aprende a reparar herramientas electricas comunes. Categoría: Electrónica, contenido: Reparación.</p>
+            </div>
+            
+            <!-- Curso 61 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/102.png" alt="Especialista En Publicidad Digital" class="course-image">
+                    <h3 class="course-title">Especialista En Publicidad Digital</h3>
+                </div>
+                <p class="course-description">Curso avanzado de publicidad en redes sociales. Categoría: Negocios, contenido: Marketing digital.</p>
+            </div>
+            
+            <!-- Curso 62 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/103.png" alt="Curso De Jardineria" class="course-image">
+                    <h3 class="course-title">Curso De Jardineria</h3>
+                </div>
+                <p class="course-description">Aprende tecnicas de jardineria y paisajismo. Categoría: Desarrollo Personal, contenido: Jardinería.</p>
+            </div>
+            
+            <!-- Curso 63 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/104.png" alt="Curso De Adobe Suit" class="course-image">
+                    <h3 class="course-title">Curso De Adobe Suit</h3>
+                </div>
+                <p class="course-description">Domina las herramientas de Adobe para diseno grafico. Categoría: Diseño, contenido: Adobe Suite.</p>
+            </div>
+            
+            <!-- Curso 64 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/105.png" alt="Carpinteria En Aluminio" class="course-image">
+                    <h3 class="course-title">Carpinteria En Aluminio</h3>
+                </div>
+                <p class="course-description">Tecnicas de carpinteria especializada en aluminio. Categoría: Manufactura, contenido: Carpintería.</p>
+            </div>
+            
+            <!-- Curso 65 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/106.png" alt="Curso Completo De Instalaciones Electricas Residenciales" class="course-image">
+                    <h3 class="course-title">Curso Completo De Instalaciones Electricas Residenciales</h3>
+                </div>
+                <p class="course-description">Aprende a instalar sistemas electricos en viviendas. Categoría: Electrónica, contenido: Instalaciones eléctricas.</p>
+            </div>
+            
+            <!-- Curso 66 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/107.png" alt="Tarjetas De Credito Con Inteligencia" class="course-image">
+                    <h3 class="course-title">Tarjetas De Credito Con Inteligencia</h3>
+                </div>
+                <p class="course-description">Aprende a manejar tarjetas de credito de forma inteligente. Categoría: Negocios, contenido: Finanzas personales.</p>
+            </div>
+            
+            <!-- Curso 67 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/42.png" alt="Diseno Grafico" class="course-image">
+                    <h3 class="course-title">Diseno Grafico 2</h3>
+                </div>
+                <p class="course-description">Segunda parte del curso de diseño gráfico con herramientas avanzadas. Categoría: Diseño, contenido: Diseño avanzado.</p>
+            </div>
+            
+            <!-- Curso 68 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/43.png" alt="Office Avanzado" class="course-image">
+                    <h3 class="course-title">Office Avanzado</h3>
+                </div>
+                <p class="course-description">Curso avanzado de Microsoft Office para profesionales. Categoría: Programación, contenido: Office avanzado.</p>
+            </div>
+            
+            <!-- Curso 69 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/44.png" alt="Ingles Avanzado" class="course-image">
+                    <h3 class="course-title">Ingles Avanzado</h3>
+                </div>
+                <p class="course-description">Curso de inglés nivel avanzado con enfoque profesional. Categoría: Idiomas, contenido: Inglés profesional.</p>
+            </div>
+            
+            <!-- Curso 70 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/45.png" alt="Excel Profesional" class="course-image">
+                    <h3 class="course-title">Excel Profesional</h3>
+                </div>
+                <p class="course-description">Excel para análisis de datos y automatización profesional. Categoría: Programación, contenido: Excel profesional.</p>
+            </div>
+            
+            <!-- Curso 71 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/46.png" alt="Aula Virtual Avanzada" class="course-image">
+                    <h3 class="course-title">Aula Virtual Avanzada</h3>
+                </div>
+                <p class="course-description">Gestión avanzada de aulas virtuales y e-learning. Categoría: Programación, contenido: Educación virtual avanzada.</p>
+            </div>
+            
+            <!-- Curso 72 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/47.png" alt="Hacking Etico Avanzado" class="course-image">
+                    <h3 class="course-title">Hacking Etico Avanzado</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de hacking ético y pentesting. Categoría: Programación, contenido: Seguridad avanzada.</p>
+            </div>
+            
+            <!-- Curso 73 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/48.png" alt="Marketing Digital Avanzado" class="course-image">
+                    <h3 class="course-title">Marketing Digital Avanzado</h3>
+                </div>
+                <p class="course-description">Estrategias avanzadas de marketing digital y analítica. Categoría: Negocios, contenido: Marketing avanzado.</p>
+            </div>
+            
+            <!-- Curso 74 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/49.png" alt="Gastronomia Avanzada" class="course-image">
+                    <h3 class="course-title">Gastronomia Avanzada</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de cocina y gastronomía profesional. Categoría: Desarrollo Personal, contenido: Cocina avanzada.</p>
+            </div>
+            
+            <!-- Curso 75 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/50.png" alt="Memoria Avanzada" class="course-image">
+                    <h3 class="course-title">Memoria Avanzada</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de memorización y aprendizaje. Categoría: Desarrollo Personal, contenido: Memoria avanzada.</p>
+            </div>
+            
+            <!-- Curso 76 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/51.png" alt="Produccion Musical Avanzada" class="course-image">
+                    <h3 class="course-title">Produccion Musical Avanzada</h3>
+                </div>
+                <p class="course-description">Producción musical profesional con herramientas avanzadas. Categoría: Música, contenido: Producción avanzada.</p>
+            </div>
+            
+            <!-- Curso 77 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/52.png" alt="Ingenieria Avanzada" class="course-image">
+                    <h3 class="course-title">Ingenieria Avanzada</h3>
+                </div>
+                <p class="course-description">Cursos avanzados de ingeniería y especializaciones. Categoría: Ingeniería, contenido: Temas avanzados.</p>
+            </div>
+            
+            <!-- Curso 78 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/53.png" alt="Hacking Y Programacion Avanzado" class="course-image">
+                    <h3 class="course-title">Hacking Y Programacion Avanzado</h3>
+                </div>
+                <p class="course-description">Cursos avanzados de hacking y programación profesional. Categoría: Programación, contenido: Temas avanzados.</p>
+            </div>
+            
+            <!-- Curso 79 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/54.png" alt="Autocad Avanzado" class="course-image">
+                    <h3 class="course-title">Autocad Avanzado</h3>
+                </div>
+                <p class="course-description">AutoCAD para diseño profesional y proyectos complejos. Categoría: Diseño, contenido: CAD avanzado.</p>
+            </div>
+            
+            <!-- Curso 80 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/55.png" alt="Arquitectura Avanzada" class="course-image">
+                    <h3 class="course-title">Arquitectura Avanzada</h3>
+                </div>
+                <p class="course-description">Arquitectura profesional y diseño de estructuras. Categoría: Diseño, contenido: Arquitectura avanzada.</p>
+            </div>
+            
+            <!-- Curso 81 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/56.png" alt="Consola Movil Avanzada" class="course-image">
+                    <h3 class="course-title">Consola Movil Avanzada</h3>
+                </div>
+                <p class="course-description">Desarrollo avanzado para consolas móviles y apps. Categoría: Programación, contenido: Desarrollo móvil avanzado.</p>
+            </div>
+            
+            <!-- Curso 82 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/57.png" alt="Desarrollo Web Avanzado" class="course-image">
+                    <h3 class="course-title">Desarrollo Web Avanzado</h3>
+                </div>
+                <p class="course-description">Desarrollo web profesional con frameworks modernos. Categoría: Programación, contenido: Web avanzado.</p>
+            </div>
+            
+            <!-- Curso 83 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/58.png" alt="Psicologia Avanzada" class="course-image">
+                    <h3 class="course-title">Psicologia Avanzada</h3>
+                </div>
+                <p class="course-description">Psicología aplicada y técnicas terapéuticas. Categoría: Desarrollo Personal, contenido: Psicología aplicada.</p>
+            </div>
+            
+            <!-- Curso 84 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/59.png" alt="Canva Profesional" class="course-image">
+                    <h3 class="course-title">Canva Profesional</h3>
+                </div>
+                <p class="course-description">Canva para diseño profesional y branding. Categoría: Diseño, contenido: Diseño profesional.</p>
+            </div>
+            
+            <!-- Curso 85 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/60.png" alt="Armado De Pc Avanzado" class="course-image">
+                    <h3 class="course-title">Armado De Pc Avanzado</h3>
+                </div>
+                <p class="course-description">Armado y mantenimiento avanzado de computadoras. Categoría: Electrónica, contenido: Hardware avanzado.</p>
+            </div>
+            
+            <!-- Curso 86 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/61.png" alt="Guitarra Profesional" class="course-image">
+                    <h3 class="course-title">Guitarra Profesional</h3>
+                </div>
+                <p class="course-description">Técnicas profesionales para guitarra y composición. Categoría: Música, contenido: Guitarra profesional.</p>
+            </div>
+            
+            <!-- Curso 87 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/62.png" alt="Preparacion Universitaria Avanzada" class="course-image">
+                    <h3 class="course-title">Preparacion Universitaria Avanzada</h3>
+                </div>
+                <p class="course-description">Preparación avanzada para exámenes universitarios. Categoría: Desarrollo Personal, contenido: Educación avanzada.</p>
+            </div>
+            
+            <!-- Curso 88 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/63.png" alt="Fotografia Profesional" class="course-image">
+                    <h3 class="course-title">Fotografia Profesional</h3>
+                </div>
+                <p class="course-description">Fotografía profesional y técnicas de iluminación. Categoría: Diseño, contenido: Fotografía profesional.</p>
+            </div>
+            
+            <!-- Curso 89 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/64.png" alt="Dibujo Profesional" class="course-image">
+                    <h3 class="course-title">Dibujo Profesional</h3>
+                </div>
+                <p class="course-description">Técnicas profesionales de dibujo y ilustración. Categoría: Diseño, contenido: Dibujo profesional.</p>
+            </div>
+            
+            <!-- Curso 90 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/65.png" alt="Lectura Rapida Avanzada" class="course-image">
+                    <h3 class="course-title">Lectura Rapida Avanzada</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de lectura rápida y comprensión. Categoría: Desarrollo Personal, contenido: Lectura avanzada.</p>
+            </div>
+            
+            <!-- Curso 91 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/66.png" alt="Argis Profesional" class="course-image">
+                    <h3 class="course-title">Argis Profesional</h3>
+                </div>
+                <p class="course-description">Sistemas de información geográfica profesional. Categoría: Diseño, contenido: SIG profesional.</p>
+            </div>
+            
+            <!-- Curso 92 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/67.png" alt="Dibujo Profesional A Lapiz" class="course-image">
+                    <h3 class="course-title">Dibujo Profesional A Lapiz</h3>
+                </div>
+                <p class="course-description">Técnicas profesionales de dibujo a lápiz. Categoría: Diseño, contenido: Dibujo profesional.</p>
+            </div>
+            
+            <!-- Curso 93 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/68.png" alt="Ilustracion Digital Profesional" class="course-image">
+                    <h3 class="course-title">Ilustracion Digital Profesional</h3>
+                </div>
+                <p class="course-description">Ilustración digital profesional con software avanzado. Categoría: Diseño, contenido: Ilustración profesional.</p>
+            </div>
+            
+            <!-- Curso 94 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/69.png" alt="Marketing Avanzado" class="course-image">
+                    <h3 class="course-title">Marketing Avanzado</h3>
+                </div>
+                <p class="course-description">Estrategias avanzadas de marketing y ventas. Categoría: Negocios, contenido: Marketing avanzado.</p>
+            </div>
+            
+            <!-- Curso 95 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/70.png" alt="IA Avanzada" class="course-image">
+                    <h3 class="course-title">IA Avanzada</h3>
+                </div>
+                <p class="course-description">Inteligencia artificial avanzada y machine learning. Categoría: Programación, contenido: IA avanzada.</p>
+            </div>
+            
+            <!-- Curso 96 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/71.png" alt="Adiestramiento Canino Avanzado" class="course-image">
+                    <h3 class="course-title">Adiestramiento Canino Avanzado</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de adiestramiento canino. Categoría: Desarrollo Personal, contenido: Adiestramiento avanzado.</p>
+            </div>
+            
+            <!-- Curso 97 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/72.png" alt="Java Avanzado" class="course-image">
+                    <h3 class="course-title">Java Avanzado</h3>
+                </div>
+                <p class="course-description">Programación avanzada en Java y frameworks. Categoría: Programación, contenido: Java avanzado.</p>
+            </div>
+            
+            <!-- Curso 98 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/73.png" alt="Jazz Avanzado" class="course-image">
+                    <h3 class="course-title">Jazz Avanzado</h3>
+                </div>
+                <p class="course-description">Piano jazz avanzado y composición musical. Categoría: Música, contenido: Jazz avanzado.</p>
+            </div>
+            
+            <!-- Curso 99 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/74.png" alt="Corte Y Confeccion Avanzado" class="course-image">
+                    <h3 class="course-title">Corte Y Confeccion Avanzado</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de costura y diseño de moda. Categoría: Desarrollo Personal, contenido: Costura avanzada.</p>
+            </div>
+            
+            <!-- Curso 100 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/75.png" alt="Barismo Avanzado" class="course-image">
+                    <h3 class="course-title">Barismo Avanzado</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de barismo y cafetería. Categoría: Desarrollo Personal, contenido: Barismo avanzado.</p>
+            </div>
+            
+            <!-- Curso 101 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/76.png" alt="HVAC Avanzado" class="course-image">
+                    <h3 class="course-title">HVAC Avanzado</h3>
+                </div>
+                <p class="course-description">Reparación avanzada de sistemas HVAC. Categoría: Electrónica, contenido: HVAC avanzado.</p>
+            </div>
+            
+            <!-- Curso 102 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/77.png" alt="Oratoria Avanzada" class="course-image">
+                    <h3 class="course-title">Oratoria Avanzada</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de oratoria y presentación. Categoría: Desarrollo Personal, contenido: Comunicación avanzada.</p>
+            </div>
+            
+            <!-- Curso 103 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/78.png" alt="Hacking Avanzado" class="course-image">
+                    <h3 class="course-title">Hacking Avanzado</h3>
+                </div>
+                <p class="course-description">Hacking ético avanzado y seguridad informática. Categoría: Programación, contenido: Hacking avanzado.</p>
+            </div>
+            
+            <!-- Curso 104 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/79.png" alt="Hacking De Frecuencias Avanzado" class="course-image">
+                    <h3 class="course-title">Hacking De Frecuencias Avanzado</h3>
+                </div>
+                <p class="course-description">Hacking de frecuencias avanzado y seguridad. Categoría: Programación, contenido: Seguridad avanzada.</p>
+            </div>
+            
+            <!-- Curso 105 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/80.png" alt="Hacking Ofensivo Avanzado" class="course-image">
+                    <h3 class="course-title">Hacking Ofensivo Avanzado</h3>
+                </div>
+                <p class="course-description">Hacking ofensivo avanzado y pentesting. Categoría: Programación, contenido: Hacking ofensivo.</p>
+            </div>
+            
+            <!-- Curso 106 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/81.png" alt="Seduccion Avanzada" class="course-image">
+                    <h3 class="course-title">Seduccion Avanzada</h3>
+                </div>
+                <p class="course-description">Técnicas avanzadas de seducción y relaciones. Categoría: Desarrollo Personal, contenido: Relaciones avanzadas.</p>
+            </div>
+            
+            <!-- Curso 107 -->
+            <div class="course-card">
+                <div class="course-header">
+                    <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/82.png" alt="Programacion Avanzada" class="course-image">
+                    <h3 class="course-title">Programacion Avanzada</h3>
+                </div>
+                <p class="course-description">Programación avanzada en múltiples lenguajes. Categoría: Programación, contenido: Lenguajes avanzados.</p>
+            </div>
+            <!-- Curso 108 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/108.png" alt="Master Class Habla Con Poder" class="course-image">
+        <h3 class="course-title">Master Class Habla Con Poder</h3>
+    </div>
+    <p class="course-description">Tecnicas para hablar en publico con confianza. Categoría: Desarrollo Personal, contenido: Oratoria.</p>
+</div>
+
+<!-- Curso 109 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/109.png" alt="Curso De Confeccion (Crehana)" class="course-image">
+        <h3 class="course-title">Curso De Confeccion (Crehana)</h3>
+    </div>
+    <p class="course-description">Tecnicas de costura y confeccion de ropa. Categoría: Desarrollo Personal, contenido: Costura.</p>
+</div>
+
+<!-- Curso 110 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/110.png" alt="Curso De Artesania" class="course-image">
+        <h3 class="course-title">Curso De Artesania</h3>
+    </div>
+    <p class="course-description">Aprende diversas tecnicas artesanales. Categoría: Desarrollo Personal, contenido: Artesanías.</p>
+</div>
+
+<!-- Curso 111 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/111.png" alt="Como Tener Mas Seguidores En Tiktok" class="course-image">
+        <h3 class="course-title">Como Tener Mas Seguidores En Tiktok</h3>
+    </div>
+    <p class="course-description">Estrategias para crecer en la plataforma TikTok. Categoría: Negocios, contenido: Redes sociales.</p>
+</div>
+
+<!-- Curso 112 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/112.png" alt="Presentaciones De Alto Impacto En Power Point [Udemy]" class="course-image">
+        <h3 class="course-title">Presentaciones De Alto Impacto En Power Point [Udemy]</h3>
+    </div>
+    <p class="course-description">Crea presentaciones profesionales en PowerPoint. Categoría: Programación, contenido: PowerPoint.</p>
+</div>
+
+<!-- Curso 113 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/113.png" alt="Bienes Raices" class="course-image">
+        <h3 class="course-title">Bienes Raices</h3>
+    </div>
+    <p class="course-description">Curso sobre inversion en bienes raices. Categoría: Negocios, contenido: Inversiones.</p>
+</div>
+
+<!-- Curso 114 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/114.png" alt="Curso Habla Koreano" class="course-image">
+        <h3 class="course-title">Curso Habla Koreano</h3>
+    </div>
+    <p class="course-description">Aprende coreano desde nivel basico. Categoría: Idiomas, contenido: Coreano.</p>
+</div>
+
+<!-- Curso 115 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/115.png" alt="En Mantenimiento" class="course-image">
+        <h3 class="course-title">En Mantenimiento</h3>
+    </div>
+    <p class="course-description">Curso actualmente en mantenimiento. Categoría: Programación, contenido: No disponible.</p>
+</div>
+
+<!-- Curso 116 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/116.png" alt="Tiktok Ads" class="course-image">
+        <h3 class="course-title">Tiktok Ads</h3>
+    </div>
+    <p class="course-description">Curso sobre publicidad en TikTok. Categoría: Negocios, contenido: Publicidad.</p>
+</div>
+
+<!-- Curso 117 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/117.png" alt="Cursos Musicales" class="course-image">
+        <h3 class="course-title">Cursos Musicales</h3>
+    </div>
+    <p class="course-description">Coleccion de cursos sobre teoria y practica musical. Categoría: Música, contenido: Varios.</p>
+</div>
+
+<!-- Curso 118 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/118.png" alt="Curso Revit 2025" class="course-image">
+        <h3 class="course-title">Curso Revit 2025</h3>
+    </div>
+    <p class="course-description">Aprende a usar Revit para modelado BIM. Categoría: Diseño, contenido: Revit.</p>
+</div>
+
+<!-- Curso 119 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/119.png" alt="Master En Publicidad" class="course-image">
+        <h3 class="course-title">Master En Publicidad</h3>
+    </div>
+    <p class="course-description">Curso avanzado de estrategias publicitarias. Categoría: Negocios, contenido: Publicidad.</p>
+</div>
+
+<!-- Curso 120 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/120.png" alt="Hacking Android" class="course-image">
+        <h3 class="course-title">Hacking Android</h3>
+    </div>
+    <p class="course-description">Tecnicas de hacking y seguridad para dispositivos Android. Categoría: Programación, contenido: Seguridad.</p>
+</div>
+
+<!-- Curso 121 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/121.png" alt="Hipnosis Rapida Para El Desarrollo Personal" class="course-image">
+        <h3 class="course-title">Hipnosis Rapida Para El Desarrollo Personal</h3>
+    </div>
+    <p class="course-description">Tecnicas de hipnosis para crecimiento personal. Categoría: Desarrollo Personal, contenido: Hipnosis.</p>
+</div>
+
+<!-- Curso 122 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/122.png" alt="Curso Melamina Y Planos 1" class="course-image">
+        <h3 class="course-title">Curso Melamina Y Planos 1</h3>
+    </div>
+    <p class="course-description">Tecnicas de trabajo con melamina y diseno de planos. Categoría: Diseño, contenido: Carpintería.</p>
+</div>
+
+<!-- Curso 123 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/123.png" alt="Curso Melamina Y Planos 2" class="course-image">
+        <h3 class="course-title">Curso Melamina Y Planos 2</h3>
+    </div>
+    <p class="course-description">Segunda parte del curso de melamina y planos. Categoría: Diseño, contenido: Carpintería.</p>
+</div>
+
+<!-- Curso 124 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/124.png" alt="47 Lecciones De Ingles" class="course-image">
+        <h3 class="course-title">47 Lecciones De Ingles</h3>
+    </div>
+    <p class="course-description">Curso completo de ingles con 47 lecciones. Categoría: Idiomas, contenido: Inglés.</p>
+</div>
+
+<!-- Curso 125 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/125.png" alt="Curso Melamina Y Planos 3" class="course-image">
+        <h3 class="course-title">Curso Melamina Y Planos 3</h3>
+    </div>
+    <p class="course-description">Tercera parte del curso de melamina y planos. Categoría: Diseño, contenido: Carpintería.</p>
+</div>
+
+<!-- Curso 126 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/126.png" alt="Deep Web Y Dark Web Curso Completo" class="course-image">
+        <h3 class="course-title">Deep Web Y Dark Web Curso Completo</h3>
+    </div>
+    <p class="course-description">Introduccion a la deep web y dark web con medidas de seguridad. Categoría: Programación, contenido: Seguridad.</p>
+</div>
+
+<!-- Curso 127 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/127.png" alt="Mecanica De Motos" class="course-image">
+        <h3 class="course-title">Mecanica De Motos</h3>
+    </div>
+    <p class="course-description">Aprende a reparar y mantener motocicletas. Categoría: Ingeniería, contenido: Mecánica.</p>
+</div>
+
+<!-- Curso 128 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/128.png" alt="Pintura De Paises Urbanos En Acuarela" class="course-image">
+        <h3 class="course-title">Pintura De Paises Urbanos En Acuarela</h3>
+    </div>
+    <p class="course-description">Tecnicas de pintura en acuarela de paisajes urbanos. Categoría: Diseño, contenido: Pintura.</p>
+</div>
+
+<!-- Curso 129 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/129.png" alt="Curso Chat GPT Sessions" class="course-image">
+        <h3 class="course-title">Curso Chat GPT Sessions</h3>
+    </div>
+    <p class="course-description">Aprende a usar ChatGPT para diversos propositos. Categoría: Programación, contenido: IA.</p>
+</div>
+
+<!-- Curso 130 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/130.png" alt="Curso De Manejo De Herramientas Electricas" class="course-image">
+        <h3 class="course-title">Curso De Manejo De Herramientas Electricas</h3>
+    </div>
+    <p class="course-description">Aprende a usar herramientas electricas de forma segura. Categoría: Electrónica, contenido: Herramientas.</p>
+</div>
+
+<!-- Curso 131 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/131.png" alt="Curso De Nutricion Para Ganar Masa Muscular" class="course-image">
+        <h3 class="course-title">Curso De Nutricion Para Ganar Masa Muscular</h3>
+    </div>
+    <p class="course-description">Planificacion nutricional para aumento de masa muscular. Categoría: Desarrollo Personal, contenido: Nutrición.</p>
+</div>
+
+<!-- Curso 132 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/132.png" alt="Curso De Matematica Financiera" class="course-image">
+        <h3 class="course-title">Curso De Matematica Financiera</h3>
+    </div>
+    <p class="course-description">Fundamentos de matematicas aplicadas a las finanzas. Categoría: Negocios, contenido: Finanzas.</p>
+</div>
+
+<!-- Curso 133 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/133.png" alt="Curso De Inmobiliario Facil" class="course-image">
+        <h3 class="course-title">Curso De Inmobiliario Facil</h3>
+    </div>
+    <p class="course-description">Aprende los fundamentos del negocio inmobiliario de forma sencilla. Categoría: Negocios, contenido: Bienes raíces.</p>
+</div>
+
+<!-- Curso 134 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/134.png" alt="Curso De Finanzas En 20S" class="course-image">
+        <h3 class="course-title">Curso De Finanzas En 20S</h3>
+    </div>
+    <p class="course-description">Domina las finanzas personales en solo 20 sesiones. Categoría: Negocios, contenido: Finanzas.</p>
+</div>
+
+<!-- Curso 135 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/135.png" alt="Curso De Reparacion De Play 3, Play4, Xbox" class="course-image">
+        <h3 class="course-title">Curso De Reparacion De Play 3, Play4, Xbox</h3>
+    </div>
+    <p class="course-description">Aprende a reparar consolas de videojuegos populares. Categoría: Electrónica, contenido: Reparación.</p>
+</div>
+
+<!-- Curso 136 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/136.png" alt="Curso De Recortes Digital Para Fotografos" class="course-image">
+        <h3 class="course-title">Curso De Recortes Digital Para Fotografos</h3>
+    </div>
+    <p class="course-description">Tecnicas profesionales de recorte digital para fotografos. Categoría: Diseño, contenido: Fotografía.</p>
+</div>
+
+<!-- Curso 137 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/137.png" alt="Curso De Implementacion De La Marca" class="course-image">
+        <h3 class="course-title">Curso De Implementacion De La Marca</h3>
+    </div>
+    <p class="course-description">Estrategias efectivas para implementar tu marca personal o empresarial. Categoría: Negocios, contenido: Branding.</p>
+</div>
+
+<!-- Curso 138 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/138.png" alt="Curso De Diseno Grafico En Canva" class="course-image">
+        <h3 class="course-title">Curso De Diseno Grafico En Canva</h3>
+    </div>
+    <p class="course-description">Domina el diseno grafico utilizando la plataforma Canva. Categoría: Diseño, contenido: Canva.</p>
+</div>
+
+<!-- Curso 139 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/4dee3cfc92b3571b58eab75a4c875f9dfef57125/139.png" alt="Como Mejorar El Comportamiento De Tus Hijos" class="course-image">
+        <h3 class="course-title">Como Mejorar El Comportamiento De Tus Hijos</h3>
+    </div>
+    <p class="course-description">Estrategias efectivas para la educacion y manejo del comportamiento infantil. Categoría: Desarrollo Personal, contenido: Educación.</p>
+</div>
+
+<!-- Curso 140 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/4dee3cfc92b3571b58eab75a4c875f9dfef57125/140.png" alt="Curso De Barista Training Online" class="course-image">
+        <h3 class="course-title">Curso De Barista Training Online</h3>
+    </div>
+    <p class="course-description">Conviertete en un experto barista con este curso completo en linea. Categoría: Hogar, contenido: Barismo.</p>
+</div>
+
+<!-- Curso 141 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/141.png" alt="Curso De Culturismo Sin Fronteras" class="course-image">
+        <h3 class="course-title">Curso De Culturismo Sin Fronteras</h3>
+    </div>
+    <p class="course-description">Entrenamiento completo de culturismo para todos los niveles. Categoría: Salud, contenido: Culturismo.</p>
+</div>
+
+<!-- Curso 142 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/142.png" alt="Curso De Barbershop-Hotmart" class="course-image">
+        <h3 class="course-title">Curso De Barbershop-Hotmart</h3>
+    </div>
+    <p class="course-description">Aprende tecnicas profesionales de barberia. Categoría: Hogar, contenido: Barbería.</p>
+</div>
+
+<!-- Curso 143 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/143.png" alt="Curso De Aprende Ingles Dialogando" class="course-image">
+        <h3 class="course-title">Curso De Aprende Ingles Dialogando</h3>
+    </div>
+    <p class="course-description">Metodo innovador para aprender ingles a traves de dialogos practicos. Categoría: Idiomas, contenido: Inglés.</p>
+</div>
+
+<!-- Curso 144 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/144.png" alt="Curso De Finanzas" class="course-image">
+        <h3 class="course-title">Curso De Finanzas</h3>
+    </div>
+    <p class="course-description">Domina los conceptos financieros esenciales para tu vida personal y profesional. Categoría: Negocios, contenido: Finanzas.</p>
+</div>
+
+<!-- Curso 145 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/145.png" alt="Curso Javascript ES9, HTML, CSS3 Y Nodejs Desde Cero" class="course-image">
+        <h3 class="course-title">Curso Javascript ES9, HTML, CSS3 Y Nodejs Desde Cero</h3>
+    </div>
+    <p class="course-description">Aprende desarrollo web completo con las ultimas tecnologias. Categoría: Tecnología, contenido: Desarrollo web.</p>
+</div>
+
+<!-- Curso 146 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/146.png" alt="Curso De Creacion De Punto De Venta" class="course-image">
+        <h3 class="course-title">Curso De Creacion De Punto De Venta</h3>
+    </div>
+    <p class="course-description">Aprende a crear y gestionar un punto de venta efectivo. Categoría: Negocios, contenido: Ventas.</p>
+</div>
+
+<!-- Curso 147 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/147.png" alt="Curso De E-Commerce" class="course-image">
+        <h3 class="course-title">Curso De E-Commerce</h3>
+    </div>
+    <p class="course-description">Domina el comercio electronico y aumenta tus ventas en linea. Categoría: Negocios, contenido: E-commerce.</p>
+</div>
+
+<!-- Curso 148 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/148.png" alt="Curso Social Media Marketing Y Estrategia Digital" class="course-image">
+        <h3 class="course-title">Curso Social Media Marketing Y Estrategia Digital</h3>
+    </div>
+    <p class="course-description">Estrategias avanzadas de marketing en redes sociales. Categoría: Negocios, contenido: Marketing digital.</p>
+</div>
+
+<!-- Curso 152 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/152.png" alt="Tecnico En Redes De Seguridad" class="course-image">
+        <h3 class="course-title">Tecnico En Redes De Seguridad</h3>
+    </div>
+    <p class="course-description">Conviertete en experto en redes y seguridad informatica. Categoría: Tecnología, contenido: Seguridad.</p>
+</div>
+
+<!-- Curso 153 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/153.png" alt="Vender O Morir" class="course-image">
+        <h3 class="course-title">Vender O Morir</h3>
+    </div>
+    <p class="course-description">Estrategias radicales para aumentar tus ventas exponencialmente. Categoría: Negocios, contenido: Ventas.</p>
+</div>
+
+<!-- Curso 155 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/155.png" alt="Como Ganar En Criptomonedas" class="course-image">
+        <h3 class="course-title">Como Ganar En Criptomonedas</h3>
+    </div>
+    <p class="course-description">Aprende a invertir y ganar con criptomonedas de forma segura. Categoría: Negocios, contenido: Criptomonedas.</p>
+</div>
+
+<!-- Curso 156 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/156.png" alt="Curso De Marketing Digital Completo (2024)" class="course-image">
+        <h3 class="course-title">Curso De Marketing Digital Completo (2024)</h3>
+    </div>
+    <p class="course-description">El curso mas completo de marketing digital actualizado para 2024. Categoría: Negocios, contenido: Marketing Digital.</p>
+</div>
+
+<!-- Curso 157 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/157.png" alt="Curso Basico De Amigurumis" class="course-image">
+        <h3 class="course-title">Curso Basico De Amigurumis</h3>
+    </div>
+    <p class="course-description">Aprende a crear adorables amigurumis (munecos tejidos) desde cero. Categoría: Hogar, contenido: Tejido.</p>
+</div>
+
+<!-- Curso 159 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/159.png" alt="Curso De Cultivos De Hongos" class="course-image">
+        <h3 class="course-title">Curso De Cultivos De Hongos</h3>
+    </div>
+    <p class="course-description">Aprende las tecnicas para cultivar hongos comestibles en casa. Categoría: Hogar, contenido: Cultivos.</p>
+</div>
+
+<!-- Curso 160 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/160.png" alt="Cursos De Bellas Artes" class="course-image">
+        <h3 class="course-title">Cursos De Bellas Artes</h3>
+    </div>
+    <p class="course-description">Coleccion completa de cursos de bellas artes y tecnicas artisticas. Categoría: Diseño, contenido: Arte.</p>
+</div>
+
+<!-- Curso 162 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/162.png" alt="Curso Decoracion De Globos" class="course-image">
+        <h3 class="course-title">Curso Decoracion De Globos</h3>
+    </div>
+    <p class="course-description">Aprende tecnicas profesionales para decoracion con globos. Categoría: Hogar, contenido: Decoración.</p>
+</div>
+
+<!-- Curso 163 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/163.png" alt="Ingles You Talk Tv" class="course-image">
+        <h3 class="course-title">Ingles You Talk Tv</h3>
+    </div>
+    <p class="course-description">Curso completo de ingles con el metodo You Talk TV. Categoría: Idiomas, contenido: Inglés.</p>
+</div>
+
+<!-- Curso 164 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/164.png" alt="Copywriting Como Escribir Para Aprender Mas" class="course-image">
+        <h3 class="course-title">Copywriting Como Escribir Para Aprender Mas</h3>
+    </div>
+    <p class="course-description">Domina el arte del copywriting para vender mas con tus textos. Categoría: Negocios, contenido: Redacción.</p>
+</div>
+
+<!-- Curso 166 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/166.png" alt="Curso De Illustrator" class="course-image">
+        <h3 class="course-title">Curso De Illustrator</h3>
+    </div>
+    <p class="course-description">Aprende Adobe Illustrator desde cero hasta nivel avanzado. Categoría: Diseño, contenido: Diseño Gráfico.</p>
+</div>
+
+<!-- Curso 167 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/167.png" alt="Curso De Git Y Github" class="course-image">
+        <h3 class="course-title">Curso De Git Y Github</h3>
+    </div>
+    <p class="course-description">Aprende el sistema de control de versiones Git y la plataforma GitHub. Categoría: Tecnología, contenido: Programación.</p>
+</div>
+
+<!-- Curso 168 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/168.png" alt="Git Y Github De Brais Moure" class="course-image">
+        <h3 class="course-title">Git Y Github De Brais Moure</h3>
+    </div>
+    <p class="course-description">Curso completo de Git y GitHub por el experto Brais Moure. Categoría: Tecnología, contenido: Programación.</p>
+</div>
+
+<!-- Curso 172 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/172.png" alt="Maestros Leds (Terabox)" class="course-image">
+        <h3 class="course-title">Maestros Leds (Terabox)</h3>
+    </div>
+    <p class="course-description">Curso completo sobre instalacion y mantenimiento de sistemas LED. Categoría: Electrónica, contenido: Instalación LED.</p>
+</div>
+
+<!-- Curso 173 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/173.png" alt="Domina Las Matematicas" class="course-image">
+        <h3 class="course-title">Domina Las Matematicas</h3>
+    </div>
+    <p class="course-description">Curso completo para dominar las matematicas desde basico hasta avanzado. Categoría: Desarrollo Personal, contenido: Matemáticas.</p>
+</div>
+
+<!-- Curso 175 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/175.png" alt="Curso De Panaderia" class="course-image">
+        <h3 class="course-title">Curso De Panaderia</h3>
+    </div>
+    <p class="course-description">Aprende las tecnicas profesionales de panaderia artesanal. Categoría: Hogar, contenido: Repostería.</p>
+</div>
+
+<!-- Curso 176 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/176.png" alt="Cursos De Idiomas" class="course-image">
+        <h3 class="course-title">Cursos De Idiomas</h3>
+    </div>
+    <p class="course-description">Coleccion de cursos para aprender diferentes idiomas. Categoría: Idiomas, contenido: Varios idiomas.</p>
+</div>
+
+<!-- Curso 181 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/181.png" alt="Microsoldadura" class="course-image">
+        <h3 class="course-title">Microsoldadura</h3>
+    </div>
+    <p class="course-description">Tecnicas profesionales de microsoldadura para reparacion de dispositivos electronicos. Categoría: Electrónica, contenido: Reparación.</p>
+</div>
+
+<!-- Curso 182 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/182.png" alt="Curso De Electronica Fundamentos De Electricidad Y Electronica" class="course-image">
+        <h3 class="course-title">Curso De Electronica Fundamentos De Electricidad Y Electronica</h3>
+    </div>
+    <p class="course-description">Aprende los fundamentos de electricidad y electronica desde cero. Categoría: Electrónica, contenido: Electricidad.</p>
+</div>
+
+<!-- Curso 183 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/183.png" alt="Curso Diseno Sismico De Losas Y Vigas" class="course-image">
+        <h3 class="course-title">Curso Diseno Sismico De Losas Y Vigas</h3>
+    </div>
+    <p class="course-description">Especializacion en diseno sismico de elementos estructurales. Categoría: Tecnología, contenido: Ingeniería.</p>
+</div>
+
+<!-- Curso 184 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/184.png" alt="Curso De Facebook Ads" class="course-image">
+        <h3 class="course-title">Curso De Facebook Ads</h3>
+    </div>
+    <p class="course-description">Domina la publicidad en Facebook para potenciar tu negocio. Categoría: Negocios, contenido: Publicidad.</p>
+</div>
+
+<!-- Curso 185 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/185.png" alt="Curso Practico De Chat GPT" class="course-image">
+        <h3 class="course-title">Curso Practico De Chat GPT</h3>
+    </div>
+    <p class="course-description">Aprende a utilizar ChatGPT de manera practica para productividad. Categoría: Tecnología, contenido: Inteligencia Artificial.</p>
+</div>
+
+<!-- Curso 188 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/188.png" alt="Curso De Community Manager Completo" class="course-image">
+        <h3 class="course-title">Curso De Community Manager Completo</h3>
+    </div>
+    <p class="course-description">Conviertete en un experto Community Manager con este curso completo. Categoría: Negocios, contenido: Redes Sociales.</p>
+</div>
+
+<!-- Curso 189 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/189.png" alt="Curso De Mercado De Valores" class="course-image">
+        <h3 class="course-title">Curso De Mercado De Valores</h3>
+    </div>
+    <p class="course-description">Aprende a invertir en la bolsa de valores de manera inteligente. Categoría: Negocios, contenido: Inversiones.</p>
+</div>
+
+<!-- Curso 190 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/190.png" alt="Curso De Cerveza Artesanal" class="course-image">
+        <h3 class="course-title">Curso De Cerveza Artesanal</h3>
+    </div>
+    <p class="course-description">Aprende a elaborar cerveza artesanal de calidad profesional. Categoría: Hogar, contenido: Cervecería.</p>
+</div>
+
+<!-- Curso 192 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/192.png" alt="Curso Express" class="course-image">
+        <h3 class="course-title">Curso Express</h3>
+    </div>
+    <p class="course-description">Coleccion de cursos rapidos sobre diversos temas practicos. Categoría: Desarrollo Personal, contenido: Varios temas.</p>
+</div>
+
+<!-- Curso 193 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/193.png" alt="Curso De Yoga" class="course-image">
+        <h3 class="course-title">Curso De Yoga</h3>
+    </div>
+    <p class="course-description">Aprende yoga desde cero y mejora tu salud fisica y mental. Categoría: Salud, contenido: Ejercicio.</p>
+</div>
+
+<!-- Curso 194 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/194.png" alt="Curso Completo De Elaboracion De Tesis" class="course-image">
+        <h3 class="course-title">Curso Completo De Elaboracion De Tesis</h3>
+    </div>
+    <p class="course-description">Guia completa para la elaboracion de tesis academicas. Categoría: Desarrollo Personal, contenido: Académico.</p>
+</div>
+
+<!-- Curso 195 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/195.png" alt="Curso Completo De Office 2021" class="course-image">
+        <h3 class="course-title">Curso Completo De Office 2021</h3>
+    </div>
+    <p class="course-description">Domina todas las herramientas de Microsoft Office 2021. Categoría: Tecnología, contenido: Ofimática.</p>
+</div>
+
+<!-- Curso 196 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/196.png" alt="Curso De E-Commerce Con Paypal" class="course-image">
+        <h3 class="course-title">Curso De E-Commerce Con Paypal</h3>
+    </div>
+    <p class="course-description">Aprende a configurar y gestionar un e-commerce con PayPal. Categoría: Negocios, contenido: Comercio electrónico.</p>
+</div>
+
+<!-- Curso 197 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/197.png" alt="Curso 'Aprende A Cantar'" class="course-image">
+        <h3 class="course-title">Curso 'Aprende A Cantar'</h3>
+    </div>
+    <p class="course-description">Tecnicas vocales para aprender a cantar correctamente. Categoría: Música, contenido: Canto.</p>
+</div>
+
+<!-- Curso 198 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/198.png" alt="Curso De Trading 2" class="course-image">
+        <h3 class="course-title">Curso De Trading 2</h3>
+    </div>
+    <p class="course-description">Segunda parte del curso avanzado de trading en mercados financieros. Categoría: Negocios, contenido: Inversiones.</p>
+</div>
+
+<!-- Curso 199 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/199.png" alt="Tecnicas Para Entrenar Tu Creatividad" class="course-image">
+        <h3 class="course-title">Tecnicas Para Entrenar Tu Creatividad</h3>
+    </div>
+    <p class="course-description">Ejercicios y metodos para desarrollar y potenciar tu creatividad. Categoría: Desarrollo Personal, contenido: Creatividad.</p>
+</div>
+
+<!-- Curso 201 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/201.png" alt="Pémark Marketing" class="course-image">
+        <h3 class="course-title">Pémark Marketing</h3>
+    </div>
+    <p class="course-description">Estrategias innovadoras de marketing para el siglo XXI. Categoría: Negocios, contenido: Marketing.</p>
+</div>
+
+<!-- Curso 202 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/202.png" alt="Lenguaje De Señas" class="course-image">
+        <h3 class="course-title">Lenguaje De Señas</h3>
+    </div>
+    <p class="course-description">Aprende lenguaje de señas para comunicacion inclusiva. Categoría: Desarrollo Personal, contenido: Comunicación.</p>
+</div>
+
+<!-- Curso 203 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/203.png" alt="Curso Amazon FBA" class="course-image">
+        <h3 class="course-title">Curso Amazon FBA</h3>
+    </div>
+    <p class="course-description">Guia completa para vender en Amazon con el sistema FBA. Categoría: Negocios, contenido: Comercio electrónico.</p>
+</div>
+
+<!-- Curso 204 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/204.png" alt="Curso 'Creacion De Lamparas Con Origami De Papel'" class="course-image">
+        <h3 class="course-title">Curso 'Creacion De Lamparas Con Origami De Papel'</h3>
+    </div>
+    <p class="course-description">Aprende a crear lamparas decorativas con la tecnica de origami. Categoría: Hogar, contenido: Manualidades.</p>
+</div>
+
+<!-- Curso 205 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/205.png" alt="Curso 'Como Hacer Un Podcast'" class="course-image">
+        <h3 class="course-title">Curso 'Como Hacer Un Podcast'</h3>
+    </div>
+    <p class="course-description">Guia completa para crear, grabar y publicar tu propio podcast. Categoría: Tecnología, contenido: Producción de audio.</p>
+</div>
+
+<!-- Curso 206 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/206.png" alt="Curso 'Creacion De Libros Pop-Up'" class="course-image">
+        <h3 class="course-title">Curso 'Creacion De Libros Pop-Up'</h3>
+    </div>
+    <p class="course-description">Aprende a diseñar y crear libros pop-up tridimensionales. Categoría: Diseño, contenido: Manualidades.</p>
+</div>
+
+<!-- Curso 207 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/207.png" alt="Curso Afiliado Master" class="course-image">
+        <h3 class="course-title">Curso Afiliado Master</h3>
+    </div>
+    <p class="course-description">Conviertete en un afiliado exitoso y genera ingresos pasivos. Categoría: Negocios, contenido: Marketing de afiliados.</p>
+</div>
+
+<!-- Curso 208 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/208.png" alt="Curso Diseno De Negocios- Domestika" class="course-image">
+        <h3 class="course-title">Curso Diseno De Negocios- Domestika</h3>
+    </div>
+    <p class="course-description">Aprende a diseñar modelos de negocio exitosos. Categoría: Negocios, contenido: Emprendimiento.</p>
+</div>
+
+<!-- Curso 209 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/209.png" alt="Curso Manejo De Las Emociones" class="course-image">
+        <h3 class="course-title">Curso Manejo De Las Emociones</h3>
+    </div>
+    <p class="course-description">Tecnicas para reconocer y gestionar eficazmente tus emociones. Categoría: Desarrollo Personal, contenido: Inteligencia emocional.</p>
+</div>
+
+<!-- Curso 210 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/210.png" alt="Curso Como Vender Mas Con Whatsapp 2025" class="course-image">
+        <h3 class="course-title">Curso Como Vender Mas Con Whatsapp 2025</h3>
+    </div>
+    <p class="course-description">Estrategias actualizadas para vender mas usando WhatsApp Business. Categoría: Negocios, contenido: Ventas.</p>
+</div>
+
+<!-- Curso 211 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/211.png" alt="Curso Formula De Ventas Ilimitadas" class="course-image">
+        <h3 class="course-title">Curso Formula De Ventas Ilimitadas</h3>
+    </div>
+    <p class="course-description">Metodo probado para multiplicar tus ventas exponencialmente. Categoría: Negocios, contenido: Ventas.</p>
+</div>
+
+<!-- Curso 212 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/212.png" alt="Segundo Curso de Contabilidad" class="course-image">
+        <h3 class="course-title">Segundo Curso de Contabilidad</h3>
+    </div>
+    <p class="course-description">Nivel intermedio-avanzado de contabilidad financiera. Categoría: Negocios, contenido: Contabilidad.</p>
+</div>
+
+<!-- Curso 213 -->
+<div class="course-card">
+    <div class="course-header">
+        <img src="https://github.com/emiversal/pages/raw/b37a8ff3b8550ab6fa78f7f690d9385a8f59490f/213.png" alt="Curso Tocando Guitarra" class="course-image">
+        <h3 class="course-title">Curso Tocando Guitarra</h3>
+    </div>
+    <p class="course-description">Aprende a tocar guitarra desde cero con lecciones practicas. Categoría: Música, contenido: Guitarra.</p>
+</div>
+        </div>
+        
+        <div class="no-results" id="no-results">
+            No se encontraron cursos que coincidan con tu búsqueda.
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="footer-container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="https://emiliocolor.com/img-logos/logo_transparente_alargado_leyenda.png" alt="EmilioColor Logo">
+            </div>
+            
+            <div class="footer-nav">
+                <h4>Navegación Rápida</h4>
+                <a href="https://emiliocolor.com/#inicio" class="footer-nav-link">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+                <a href="https://emiliocolor.com/#novedades" class="footer-nav-link">
+                    <i class="fas fa-newspaper"></i> Novedades
+                </a>
+                <a href="https://emiliocolor.com/#divisiones" class="footer-nav-link">
+                    <i class="fas fa-sitemap"></i> Divisiones
+                </a>
+                <a href="https://emiliocolor.com/#verification" class="footer-nav-link">
+                    <i class="fas fa-info-circle"></i> Info. Adicional
+                </a>
+                <a href="https://emiliocolor.com/#apoyos" class="footer-nav-link">
+                    <i class="fas fa-hands-helping"></i> Apoyos Sociales
+                </a>
+                <a href="https://emiliocolor.com/#proyectos" class="footer-nav-link">
+                    <i class="fas fa-lightbulb"></i> Proyectos
+                </a>
+                <a href="https://emiliocolor.com/#marcas" class="footer-nav-link">
+                    <i class="fas fa-tags"></i> Nuestras Marcas
+                </a>
+                <a href="https://emiliocolor.com/#contacto" class="footer-nav-link">
+                    <i class="fas fa-envelope"></i> Contacto
+                </a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contacto Directo</h4>
+                <p><i class="fas fa-envelope"></i> emiliocolormexico@gmail.com</p>
+                <p><i class="fas fa-phone-alt"></i> +52 56 5533 3139</p>
+                <p><i class="fab fa-whatsapp"></i> +52 56 5533 3139</p>
+                <p><i class="fas fa-map-marker-alt"></i> Operando desde México</p>
+                <p><i class="fas fa-clock"></i> Lunes a Viernes: 9:00 AM - 9:00 PM</p>
+            </div>
+            
+            <div class="footer-social">
+                <h4>Síguenos</h4>
+                <div class="footer-social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61558765116854" class="social-link" aria-label="Facebook EmilioColor">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/emiliocolorcom/" class="social-link" aria-label="Instagram EmilioColor">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/525655333139" class="social-link" aria-label="WhatsApp EmilioColor">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="mailto:emiliocolormexico@gmail.com" class="social-link" aria-label="Email EmilioColor">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Conecta con nosotros para las últimas novedades</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2023-2025 EmilioColor® | Todos los derechos reservados.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">Tecnología, Educación, Transportes, Papelería - Soluciones a tu medida</p>
+        </div>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Funcionalidad de búsqueda de cursos
+    document.getElementById('search-btn').addEventListener('click', searchCourses);
+    document.getElementById('course-search').addEventListener('input', searchCourses);
+    
+    function searchCourses() {
+        const searchTerm = document.getElementById('course-search').value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const courseCards = document.querySelectorAll('.course-card');
+        const noResults = document.getElementById('no-results');
+        let visibleCount = 0;
+        
+        courseCards.forEach(card => {
+            const title = card.querySelector('.course-title').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            const description = card.querySelector('.course-description').textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        document.getElementById('visible-count').textContent = visibleCount;
+        
+        if (visibleCount === 0) {
+            noResults.style.display = 'block';
+        } else {
+            noResults.style.display = 'none';
+        }
+    }
+    
+    // Inicializar contador de cursos - Ahora mostrando 213 cursos
+    document.addEventListener('DOMContentLoaded', function() {
+        const totalCourses = document.querySelectorAll('.course-card').length;
+        document.getElementById('visible-count').textContent = totalCourses;
+        document.getElementById('total-courses').textContent = totalCourses;
+    });
+</script>
+</body>
+</html>
